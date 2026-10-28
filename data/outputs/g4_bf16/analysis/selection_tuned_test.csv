@@ -1,0 +1,10 @@
+method,tokens_per_paper,mean_hr2,recalled_share,true_per100,false_per100
+default answer (greedy),32.9198,0.9687,0.0254,13.3511,516.1437
+count>=7 of 50 samples (tuned),1609.7408,0.9585,0.0336,17.2105,101.208
+top3 of 50 samples (tuned),1609.7408,0.9588,0.0234,18.7324,281.0323
+count-0.5*bg>=6 of 50 samples (tuned),1609.7408,0.9582,0.0337,17.6655,104.1732
+count>=25 of 50 samples (fixed),1609.7408,0.9787,0.021,5.3499,5.3499
+count>=10 of 50 samples (fixed),1609.7408,0.9634,0.0348,12.802,45.9523
+count>=5 of 50 samples (fixed),1609.7408,0.9577,0.0304,22.0897,205.8205
+"thinking mode (CoT), 1 answer; refusals scored as names [6374 test papers]",645.9998,0.9577,0.0353,15.4063,353.9693
+"thinking mode (CoT), 1 answer; refusals as no answer [6374 test papers]",645.9998,0.9577,0.0353,15.4063,331.1421

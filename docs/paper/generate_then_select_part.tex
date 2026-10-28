@@ -1,0 +1,75 @@
+%% =====================================================================
+%% Generate-then-select track (Minyan Xu)
+%% Merge-ready fragment for the team proposal: no preamble, no title,
+%% no figures. Copy each block into the matching section of the team
+%% document. Citation keys are in generate_then_select_refs.bib; merge
+%% that file into the team .bib (if a key such as Dreaming Up Authors
+%% already exists there under another name, keep one and update \cite).
+%% Uses only standard LaTeX; no extra packages are needed.
+%% =====================================================================
+
+
+%% ---------------------------------------------------------------------
+%% BLOCK 1 -> Introduction (after the team research questions)
+%% ---------------------------------------------------------------------
+\paragraph{Generate-then-select track.}
+Multiple choice plays two different roles in this project, and we keep them apart. As a \emph{measurement}, it is the shared recognition test: the true author list is placed among distractors, and the result labels each paper and sets the ceiling for every method (RQ1). As a \emph{method}, it is the selection step of generate-then-select: the model samples many answers and then picks among its own candidates, which may not contain the truth (RQ2). This track contributes to both. It hardens the shared recognition test, and it develops generate-then-select, the only one of our three method families that needs no access to model internals. This also makes it the baseline that the white-box methods must beat at equal compute. The track asks three sub-questions:
+\begin{itemize}
+\item Once shortcut cues are controlled, how large is the gap between recognizing and recalling a paper's authors, and how does it change with citation count? (RQ1)
+\item Among recall failures, what share are \emph{generation failures}, where the correct author is never produced, and what share are \emph{selection failures}, where it is produced but not chosen? (RQ1)
+\item Does generate-then-select recover authors that the model recognizes but does not recall, beating direct answering, self-consistency, and chain-of-thought at matched compute? (RQ2--RQ3)
+\end{itemize}
+
+
+%% ---------------------------------------------------------------------
+%% BLOCK 2 -> Related Work
+%% ---------------------------------------------------------------------
+\paragraph{Sampling, selection, and latent knowledge.}
+Memory research describes recall as generating candidates and then recognizing the right one~\cite{kintsch1970models,anderson1972recognition}. For LLMs, Gekhman et al.~\cite{gekhman2025insideout} show that models know more internally than they express, and that some answers are almost never sampled even though the model would rank them first if they appeared. Self-consistency picks the most frequent answer among samples~\cite{wang2023selfconsistency}; models can also judge their own samples through P(True)~\cite{kadavath2022language}, and verifiers trained on hidden states can choose among them~\cite{orgad2025llms}. We estimate coverage with the unbiased pass@$k$ estimator~\cite{chen2021codex}, correct likelihoods for surface-form frequency with pointwise mutual information (PMI)~\cite{holtzman2021surface}, and score candidates in the authors-to-title direction because the direction of a query affects what models can retrieve~\cite{berglund2024reversal}. Multiple-choice tests are also fragile: LLMs often answer from the options alone~\cite{balepur2024artifacts} and prefer certain option positions~\cite{zheng2024mcq}, which motivates our controls.
+
+
+%% ---------------------------------------------------------------------
+%% BLOCK 3 -> Methods (one subsection)
+%% ---------------------------------------------------------------------
+\subsection{Generate-then-Select}
+
+This track uses the shared benchmark, model (Qwen3-32B), labels, metrics, and data split. It has no build phase: it tunes its hyperparameters (number of samples, temperature, thresholds) on the shared tune split and reports on the shared test split. Because the 3,341 candidate papers were themselves selected with a multiple-choice test, it also reports on all 9,108 papers, so that a selection-based method is not judged only on papers chosen for being easy to select. The first author is the primary target; full author lists follow once the pipeline is stable.
+
+\paragraph{Stage A: a harder recognition test.}
+The first test used random same-field names as distractors, and the title-hidden control (36\% correct versus about 6\% by chance) shows that they leak cues. Stage~A replaces them with a ladder of harder distractors, where each level removes one more shortcut:
+\begin{itemize}
+\item L0: random same-field names, as in the first test (reference level);
+\item L1: the real team of another same-field paper with the same number of authors (removes team coherence);
+\item L2: as L1, with publication year within $\pm 2$ (removes era and name-format cues);
+\item L3: the team of the most similar title, matched on team prominence (removes topic and famous-name cues);
+\item L4: the true team with one author swapped for a real collaborator (tests the paper, not just the group);
+\item L5: the model's own wrong answers (the hardest level, matching the method setting).
+\end{itemize}
+All options are normalized to one name format. Three controls should stay near chance: the title hidden, the title swapped with another paper's title, and catch trials in which the truth is removed and ``none of the above'' is correct. Each item is asked in all four cyclic option orders and counts as recognized only if it is answered correctly in most of them. The main metric is pairwise AUC, the share of (correct, incorrect) candidate pairs in which the correct one scores higher~\cite{gekhman2025insideout}. It does not depend on a threshold and applies equally to joint multiple choice, per-candidate yes/no questions, and likelihood scores; the last are coordinated with the team's true-author-probability filter. Stage~A outputs recognition curves by citation bin and adds a per-paper ``recognized under hard distractors'' label to the shared labels.
+
+\paragraph{Stage B: splitting recall failures.}
+For each paper, we take the greedy answer and up to 100 samples at several temperatures. Coverage@$k$ is the probability that the correct first author appears in at least one of $k$ samples; from $n$ samples with $c$ correct ones, it is estimated without bias as $1-\binom{n-c}{k}/\binom{n}{k}$~\cite{chen2021codex}. Since common surnames match by luck as $k$ grows, coverage is reported net of a chance baseline that matches each paper's samples against the authors of a different paper from the same field and period. Each paper then falls into one of four profiles: \emph{direct recall} (the greedy answer is correct), \emph{reachable} (the greedy answer is wrong, but the correct author appears in the samples), \emph{recognized but unreachable} (never sampled, yet recognized in Stage~A), and \emph{not recognized}. Their shares by citation bin show where recoverable knowledge lies and whether recovering it needs better selection or better generation. The profiles are also added to the shared labels: recognized-but-unreachable papers mark where steering and J-Lens can help but sampling cannot, and not-recognized papers serve as a negative control for every method.
+
+\paragraph{Stage C: generate-then-select methods.}
+To raise coverage, we compare temperature and top-$p$ sweeps; prompt formats (question--answer, a database-style ``Title: \ldots{} Authors:'' entry, and reference-list style); exclusion prompting, which asks for an author not already listed; decomposed generation (the first author alone, or co-authors given one author); and enumerated first-letter cues. Giving the model the true first letter leaks information, so it is used only as a diagnostic. To choose from the pool, we compare joint multiple choice over the unique candidates with a ``none of the above'' option; P(True) for each candidate~\cite{kadavath2022language}; PMI-corrected likelihood, $\log P(a\mid t)-\log P(a\mid\emptyset)$ for author $a$ and title $t$~\cite{holtzman2021surface}; scoring in the authors-to-title direction, $\log P(t\mid a)-\log P(t\mid\emptyset)$~\cite{berglund2024reversal}; and majority vote~\cite{wang2023selfconsistency} as the baseline.
+
+\paragraph{Evaluation.}
+Beyond the shared metrics, this track reports first-author accuracy, net coverage@$k$, selection accuracy given coverage, and selection efficiency, $(\mathrm{acc}_{\mathrm{select}}-\mathrm{acc}_{\mathrm{greedy}})/(\mathrm{coverage}-\mathrm{acc}_{\mathrm{greedy}})$, which is the share of the reachable gap actually recovered. Baselines are greedy answering with the few-shot prompt of~\cite{zhong2026dreaming}, Qwen3's thinking mode as chain of thought, and self-consistency. All comparisons are matched on the number of generated tokens, and accuracy is also plotted against answer rate when the method may abstain. The key ablation is whether selection beats majority vote; if it does not, the recognition step adds nothing beyond answer frequency. Sampling 50 answers for each of the 9,108 papers amounts to about 0.46 million short generations, a few GPU-hours per configuration on one 80\,GB GPU.
+
+
+%% ---------------------------------------------------------------------
+%% BLOCK 4 -> Execution Timeline
+%% ---------------------------------------------------------------------
+%% (a) Text, if the team section describes each member's tasks:
+\paragraph{Generate-then-select (Minyan Xu).}
+Pilot sampling and coverage check (weeks of 10/5--10/19); Stage~A, harder recognition test with controls (10/12--10/26, due at Update~1); Stage~B, failure split (10/26--11/9, due at Update~2); Stage~C, selection methods versus baselines at equal cost (11/9--11/30), with first results feeding the team comparison at Update~3 (11/16).
+
+%% (b) Rows for the team Gantt chart. Uncomment them inside the team's
+%%     ganttchart environment (pgfgantt; slot 1 = week of 10/5, ...,
+%%     slot 11 = week of 12/14). Overleaf's Visual Editor shows Gantt
+%%     and TikZ code as plain code; the chart appears in the PDF.
+% \ganttgroup{Minyan Xu: generate-then-select}{1}{9} \\
+% \ganttbar{Pilot: sample many answers, check coverage}{1}{3} \\
+% \ganttbar{Stage A: harder recognition test with controls}{2}{4} \\
+% \ganttbar{Stage B: split failures (never generated vs.\ not chosen)}{4}{6} \\
+% \ganttbar{Stage C: selection methods vs.\ baselines at equal cost}{6}{9} \\

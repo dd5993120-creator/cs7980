@@ -1,0 +1,3 @@
+items,n_items,model_correct,most_frequent_correct,model_chose_E
+pool has a true author,5564,0.5888,0.5586,0.0884
+pool has none,30768,0.3022,,0.3022

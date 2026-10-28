@@ -1,0 +1,59 @@
+15:57:58 alive
+15:58:58 alive
+15:59:58 alive
+16:00:58 alive
+16:00:58 [cot5] chunk 000: 100 papers, 308,450 tokens, 240s (1,283 tok/s)
+16:01:58 alive
+16:02:58 alive
+16:03:58 alive
+16:04:58 alive
+16:05:09 [cot5] chunk 001: 100 papers, 329,047 tokens, 251s (1,311 tok/s)
+16:05:58 alive
+16:06:58 alive
+16:07:58 alive
+16:08:58 alive
+16:09:38 [cot5] chunk 002: 100 papers, 325,768 tokens, 269s (1,211 tok/s)
+16:09:58 alive
+16:10:58 alive
+16:11:58 alive
+16:12:58 alive
+16:13:43 [cot5] chunk 003: 100 papers, 314,624 tokens, 245s (1,283 tok/s)
+16:13:58 alive
+16:14:58 alive
+16:15:58 alive
+16:16:58 alive
+16:17:58 alive
+16:18:15 [cot5] chunk 004: 100 papers, 311,524 tokens, 272s (1,147 tok/s)
+16:18:58 alive
+16:19:58 alive
+16:20:58 alive
+16:21:58 alive
+16:22:24 [cot5] chunk 005: 100 papers, 329,929 tokens, 249s (1,323 tok/s)
+16:22:58 alive
+16:23:58 alive
+16:24:58 alive
+16:25:58 alive
+16:26:49 [cot5] chunk 006: 100 papers, 312,520 tokens, 265s (1,182 tok/s)
+16:26:58 alive
+16:27:58 alive
+16:28:58 alive
+16:29:58 alive
+16:30:58 alive
+16:31:17 [cot5] chunk 007: 100 papers, 304,298 tokens, 268s (1,134 tok/s)
+16:31:58 alive
+16:32:58 alive
+16:33:58 alive
+16:34:58 alive
+16:35:47 [cot5] chunk 008: 100 papers, 324,494 tokens, 270s (1,204 tok/s)
+16:35:58 alive
+16:36:58 alive
+16:37:58 alive
+16:38:58 alive
+16:39:58 alive
+16:40:12 [cot5] chunk 009: 100 papers, 306,096 tokens, 265s (1,155 tok/s)
+16:40:58 alive
+16:41:37 [cot5] chunk 010: 23 papers, 75,240 tokens, 85s (883 tok/s)
+16:41:37 cot5 done in 2679s for 1023 papers
+16:41:37 meta {'model': 'Qwen/Qwen3-32B', 'precision': 'bf16', 'gpu_gib': 95.6, 'gpu_name': 'NVIDIA RTX PRO 6000 Blackwell Server Edition', 'vllm': '0.32.0', 'torch': '2.13.0+cu130', 'max_new_tokens': 96, 'greedy': {'n': 1, 'temperature': 0.0}, 'samples': {'n': 50, 'temperature': 1.0, 'top_p': 1.0, 'top_k': 'off', 'seed': 'per paper'}, 'mc': {'temperature': 0.0, 'max_tokens': 1, 'top_logprobs': 20}, 'written_utc': '2026-10-26T16:41:37Z', 'session': 2, 'cot': {'temperature': 0.6, 'top_p': 0.95, 'top_k': 20, 'max_tokens': 3500}, 'samples_t07': {'temperature': 0.7, 'top_p': 0.8, 'top_k': 20, 'n': 50}, 'samples200': {'temperature': 1.0, 'top_p': 1.0, 'n': 200, 'papers': 'control subset'}, 'cot5': {'n': 5, 'temperature': 0.6, 'top_p': 0.95, 'top_k': 20, 'papers': 'control subset'}}
+16:41:37 packed /content/outputs_s2.tar.gz (21.2 MB)
+16:41:37 ALL DONE

@@ -1,0 +1,28 @@
+You are an academic assistant. Your task is to identify the correct author list for an academic paper. You will be given a paper title, its publication year, and four candidate author lists labelled A, B, C, and D. Exactly one is correct.
+
+- Respond with a single letter: A, B, C, or D.
+- Do not add any explanation, notes, or extra content.
+
+Here are some examples:
+
+Question: Which of the following is the author list of the paper titled 'Why men are at higher risk for hepatocellular carcinoma?' which was published in 2012?
+A: V. Keng, D. Largaespada, A. Villanueva
+B: M. Sherman, J. Bruix, A. Forner
+C: J. Llovet, S. Ricci, V. Mazzaferro
+D: H. El-Serag, K. Rudolph, A. Marrero
+Answer: A
+
+Question: Which of the following is the author list of the paper titled 'Research as an influence on teaching' which was published in 1984?
+A: J. Centra
+B: K. R. Jolls
+C: P. Ramsden
+D: M. Prosser
+Answer: B
+
+Now, answer the following question:
+Question: Which of the following is the author list of the paper titled '{title}' which was published in {year}?
+A: {option_a}
+B: {option_b}
+C: {option_c}
+D: {option_d}
+Answer:

@@ -1,0 +1,28 @@
+{
+  "model": "Qwen/Qwen3-32B",
+  "precision": "bf16",
+  "gpu_gib": 95.6,
+  "gpu_name": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "vllm": "0.32.0",
+  "torch": "2.13.0+cu130",
+  "max_new_tokens": 96,
+  "greedy": {
+    "n": 1,
+    "temperature": 0.0
+  },
+  "samples": {
+    "n": 50,
+    "temperature": 1.0,
+    "top_p": 1.0,
+    "top_k": "off",
+    "seed": "per paper"
+  },
+  "mc": {
+    "temperature": 0.0,
+    "max_tokens": 1,
+    "top_logprobs": 20
+  },
+  "written_utc": "2026-10-26T09:43:57Z",
+  "provenance": "Two G4 VMs with the same image, model, vLLM 0.32.0 and per-paper seeds. VM 1 (lost at 07:42 UTC): greedy/ chunks 000-004 and samples/ chunks 000-005. VM 2: samples/ 006-018, both MC levels, ptrue. Chunk 006 of the samples was produced on both; VM 2's copy is kept. Seeded sampling is not bitwise identical across VMs (chunk 006: 778,283 vs 777,100 tokens), but the distribution is the same.",
+  "date": "2026-10-26"
+}

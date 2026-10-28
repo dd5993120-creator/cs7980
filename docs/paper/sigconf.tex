@@ -1,0 +1,174 @@
+\documentclass[sigconf,nonacm]{acmart}
+\usepackage{array}
+\usepackage{pgfgantt}
+\setlength{\emergencystretch}{1.5em}
+ 
+\begin{document}
+ 
+\title{Enhancing Memory of LLMs}
+ 
+\author{Hana Feng}
+\affiliation{\institution{Northeastern University}\country{USA}}
+\email{feng.yi3@northeastern.edu}
+ 
+ 
+\author{Zhiqi Zhang}
+\authornotemark[1]
+\affiliation{%
+  \institution{Northeastern University}
+  \country{USA}
+}
+ 
+\email{zhang.zhiqi2@northeastern.edu}
+ 
+\author{Minyan Xu}
+\authornotemark[1]
+\affiliation{%
+  \institution{Northeastern University}
+  \country{USA}
+}
+\email{xu.minyan@northeastern.edu}
+ 
+\maketitle
+ 
+\section{Introduction}
+Large language models (LLMs) often produce fluent but false facts, and these errors are most frequent for facts that are rare in their training data~\cite{kandpal2023longtail,mallen2023popqa}. A wrong answer, however, does not always mean that the knowledge is missing. LLMs can encode the correct answer internally yet generate a wrong one~\cite{orgad2025knowmore,gekhman2025insideout}, and frontier models encode most of the facts they are tested on, while recall remains the main bottleneck, especially for long-tail facts~\cite{calderon2026emptyshelves}. Much long-tail knowledge is therefore held by the model but not retrieved when it answers. This project asks whether such recall can be strengthened at answer time, without updating the model's weights, so that the model states what it holds.
+
+We study this question on academic authorship attribution, following Zhong et al.~\cite{zhong2026dreaming}: given a paper's title and publication year, the model must name the paper's authors. Authorship is a concrete and checkable stand-in for knowledge that a model holds but cannot retrieve. Using citation count as a proxy for factual prevalence, that is, how often a fact appears in training data, Zhong et al.\ find hallucination rates above 98\% for rarely cited papers and below 36.4\% for highly cited ones, yet in a multiple-choice test GPT-4o often picks the correct author list for papers whose authors it cannot name~\cite{zhong2026dreaming}. We follow this distinction: a model holds a paper's authors if it picks the true author list among false ones, and it fails to recall them if it cannot name them in an open question. Such failures are also costly in science, where invented authors and references mislead readers.
+
+Several families of methods could bring out such knowledge without retraining. Activation steering adds a direction to the model's hidden states while it generates~\cite{rimsky2024caa,li2023iti,cao2024bipo}. These methods were built to steer behaviors that are the same for every input, such as answering truthfully; their gains on truthfulness benchmarks do not carry over to recalling specific facts~\cite{gema2025decore}, and to our knowledge no prior work shows that activation steering improves open-ended recall of long-tail facts. J-Lens constructs a layer-specific Jacobian-based readout and shows that intermediate concepts can become verbalizable before the model produces the final answer~\cite{gurnee2026verbalizable}. Generate-then-select methods target the answers that are sampled but not chosen: self-consistency picks the most frequent answer among samples~\cite{wang2023selfconsistency}, and models can judge their own samples through P(True)~\cite{kadavath2022know}. Whether these methods can make a model state a specific long-tail fact that it holds but fails to recall, and which of them works best, remains open.
+
+We study the three families on the same papers. For activation steering, every contrast is built from a single paper, its true author list against the author list of another real paper, and we look for one direction, shared by all papers, that helps the model retrieve stored authors rather than one that encodes a specific answer. We test Contrastive Activation Addition (CAA) first, then Inference-Time Intervention (ITI) and Bi-directional Preference Optimization (BiPO), and we compare each steering vector with random and label-shuffled directions of the same strength and with prompting baselines, on papers that were not used to build it. In our project, these methods provide the intervention mechanism, while J-Lens provides a separate measurement layer for analyzing what changes internally. Generate-then-select is the only one of our three method families that needs no access to model internals: it samples candidate answers and then selects among them. Multiple choice also serves as a \emph{measurement}: the true author list is placed among distractors, and the result labels each paper and sets the ceiling for every method.
+
+Because a multiple-choice test can be passed from cues in the options alone, we make it harder before using it as a measurement. In our first test on Qwen3-32B, the model still picked the true author list for 36\% of papers when the title was hidden, against about 6\% expected by chance. We therefore draw distractors from the real author teams of other papers and add controls that should stay at chance. Generate-then-select then splits each recall failure in two: either the correct author never appears among many sampled answers, or it appears but is not chosen. The first kind of failure calls for more diverse generation and the second for better selection, and comparing the two across citation levels shows where each family of methods can help.
+
+We therefore ask three research questions:
+\begin{enumerate}
+  \item[\textbf{RQ1.}] When an LLM fails to name a paper's authors, how often does it still hold this knowledge, and how can such retrieval failures be distinguished from missing knowledge for individual papers?
+  \item[\textbf{RQ2.}] Can methods that leave the model's weights unchanged make the model generate authors that it holds but fails to recall, on papers that were not used to build the method?
+  \item[\textbf{RQ3.}] How do activation steering, lens-based methods, and generate-then-select compare, and how does their benefit vary with factual prevalence?
+\end{enumerate}
+We hypothesize that the benefit of each method varies with prevalence: the authors of rarely cited papers are often not stored at all, and those of highly cited papers are often already recalled, so recoverable knowledge should lie in between. Rather than fixing these ranges in advance, we report every result as a function of citation count.
+
+Our contributions are \ldots (TBD).
+
+\section{Related Work}
+
+\subsection{Activation Steering Methods}
+Activation steering changes a model's output at inference time by adding a vector to its hidden states, leaving the weights unchanged. Activation Addition takes the difference between the activations of two contrasting prompts and adds it during the forward pass~\cite{turner2023actadd}. Contrastive Activation Addition (CAA) averages this difference over many example pairs: each pair is a multiple-choice question whose appended answer letter shows a behavior or its opposite, the activations are read at that letter, and the mean difference is added at every token position after the user's prompt~\cite{rimsky2024caa}. Such difference-in-means directions are more causally implicated in model outputs than probe directions~\cite{marks2024geometry}, and a single one can mediate a behavior as broad as refusal: removing it stops a chat model from refusing harmful requests, and adding it makes the model refuse harmless ones~\cite{arditi2024refusal}. Representation engineering instead takes the first principal component of the differences~\cite{zou2023repe}, and a unified evaluation finds that the mean of differences performs best among these ways of turning contrastive pairs into a vector~\cite{im2025unified}. Other work changes how the examples are averaged, using an entropy-weighted average of activations~\cite{rahn2024east} or a robust mean estimator that resists corrupted pairs~\cite{anderson2026corruption}.
+
+Steering can also act on single attention heads, or be learned. Inference-Time Intervention (ITI) shifts only the attention heads whose activations best separate true from false statements, and raises the truthfulness of an instruction-tuned LLaMA model on TruthfulQA from 32.5\% to 65.1\%~\cite{li2023iti}. Later methods select heads by their causal effect on the output~\cite{todd2024function} or learn which heads to change~\cite{yin2024lofit}, use several steering vectors for different kinds of hallucination with an adaptive strength~\cite{wang2025act}, or build the vector from the semantics of each input~\cite{wang2024sadi}. Bi-directional Preference Optimization (BiPO) trains the vector directly, so that adding it makes a preferred answer more likely than a dispreferred one~\cite{cao2024bipo}, and representation finetuning trains small interventions on the hidden states of a frozen model~\cite{wu2024reft}.
+
+Most of these methods target truthfulness, and their gains do not imply better recall of specific facts: on closed-book question answering, ITI lowered the exact-match accuracy of Llama-3-8B-Instruct from 56.6 to 48.4 on TriviaQA and from 26.6 to 15.6 on PopQA~\cite{gema2025decore}. Steering helps mainly where the model holds the answer: on TriviaQA, mean-difference steering of the 48 attention heads that best separate hallucinated from correct answers fixed 13--21\% of the hallucinations on questions the model knew, but less than 8\% on questions it did not know~\cite{simhi2025hack}.
+
+Steering is also less reliable than average results suggest. Across many behaviors, the effect of a steering vector varies widely from one input to another, partly because of spurious biases, and some vectors break under modest changes to the prompt~\cite{tan2024reliability}. Steering tends to fail when the target behavior is not represented by a coherent direction; agreement among the per-example differences, and the separation of the two classes along the direction, predict whether it works~\cite{braun2025unreliability}. On a benchmark of steering concepts for Gemma-2 models, simple prompting outperformed every steering method tested~\cite{wu2025axbench}, and evaluations of steering should use contexts close to the downstream task, account for model likelihoods, and compare against baselines~\cite{pres2024reliable}.
+
+Closest to our goal are interventions that elicit knowledge a model holds but does not express. KAPPA aligns the subspaces that carry a model's knowledge and its prediction at inference time, which narrows the gap between what the model knows and what it answers on multiple-choice benchmarks and carries over to free-form answers~\cite{park2026kappa}. Vector interventions that route non-English questions through a model's English recall pathway raised recall accuracy by more than 35\% for the weakest language~\cite{lu2025pathsnottaken}. On Qwen3-32B, which often answers politically sensitive questions falsely, a difference-in-means steering vector raised the share of facts mentioned from 44.9\% to 61.8\%, while few-shot prompting reached 72.3\%~\cite{casademunt2026censored}. In these cases the fact is blocked by a specific mechanism, a language or trained-in censorship, rather than by being rare. For citations, when Qwen2.5-32B-Instruct writes references for a topic, suppressing 78 neurons linked to hallucinated author fields raised the accuracy of the author names from 17.5\% to 23.7\%, whereas ablating as many random neurons lowered it to 15.3\%~\cite{chen2026fakecitations}. Outside the hidden states, reasoning~\cite{gekhman2026thinking} and reinforcement learning~\cite{yang2026rl} also surface parametric facts that a model otherwise fails to state. Other results caution against equating detection with correction: steering along directions that signal whether a model recognizes an entity can make it refuse questions about known entities or invent attributes of unknown ones~\cite{ferrando2025entity}, and steering along a hallucination-probe direction failed to correct hallucinations in all seven models tested~\cite{roy2026detection}. To our knowledge, no prior work shows that adding a steering vector improves open-ended recall of long-tail facts.
+
+Our work builds on CAA, ITI, and BiPO but differs in three ways. First, we target long-tail knowledge that the model holds but cannot recall, which prior studies find to be common~\cite{gekhman2025insideout,calderon2026emptyshelves} and where steering is most likely to help~\cite{simhi2025hack}, using paper authorship as a concrete testbed~\cite{zhong2026dreaming}. Whereas the citation study above suppresses neurons that produce errors, we add a direction meant to strengthen retrieval. Second, prior methods steer a behavior that is the same for every input, whereas the fact to recall differs for every paper. We therefore build each contrast from a single paper, its true author list against the author list of another real paper, and look for one shared direction that helps retrieval rather than one that encodes a specific answer. As in CAA, we read the hidden state at the answer letter of a two-option question and add the vector from the last token of the prompt onward, so that the push can change the first name the model writes; ITI then restricts the shift to selected attention heads, and BiPO trains the vector so that it favors the true author list over the model's own wrong answer. Third, following the reliability results above, we evaluate on papers not used to build the vectors, measure recall in the model's own open answers, and compare each vector with random directions of the same strength, with label-shuffled vectors as a randomization check~\cite{adebayo2018sanity}, and with prompting baselines; we report the effect across the full citation range.
+
+\subsection{Intermediate Representation Readout}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% why we use J-Lens and how prior work on R-Lens, token-position sensitivity, and Concept Lens reveals important limitations of J-Lens as a measurement tool.
+Several recent methods attempt to recover semantically meaningful
+information from intermediate transformer activations. J-Lens constructs
+a layer-specific Jacobian-based readout and shows that intermediate
+concepts can become verbalizable before the model produces the final
+answer \cite{gurnee2026verbalizable}. This is particularly useful for
+our setting because the factual target of interest may be internally
+available even when the final generated author list is incorrect.
+ 
+However, later work shows that the reliability of such readouts depends
+strongly on where and how they are measured. R-Lens modifies the backward
+attribution rules used to construct the readout and often recovers known
+concepts substantially earlier than standard J-Lens. For example,
+``Japan'' is recovered at Layer 2 rather than Layer 14 in the sushi
+example, and ``basketball'' at Layer 4 rather than Layer 20 in the
+Michael Jordan example \cite{blank2026rlens}. This suggests that an
+apparently absent early-layer representation may reflect readout error
+rather than true absence of the concept.
+ 
+Token position is another source of variation. Short Horizons and Sparse
+Concepts shows that Jacobian energy is highly concentrated in a small
+subset of source-target position pairs. Retaining the top 20\% of
+high-energy pairs increases average intermediate-concept recall from
+18.71 to 22.14, while retaining only the top 1\% reduces it to 16.45
+\cite{shorthorizons2026}. These results motivate treating token position
+as a tunable part of the readout protocol rather than always using the
+last prompt token or uniformly averaging all positions.
+ 
+Finally, author identities are inherently multi-token concepts. Concept
+Lens separates candidate generation from concept scoring and reports a
+large gap between normal Rank@10 and oracle-candidate Rank@10
+(44.3\% versus 91.9\% on Llama-3.1-8B), indicating that failure to
+surface a concept is not equivalent to failure to represent it
+\cite{conceptlens2026}. We therefore distinguish token-level author
+accessibility from full multi-token author-concept recovery.
+ 
+\subsection{Steering and Internal Decodability}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% successful behavioral steering and improved J-Lens decodability are not equivalent.
+% we need comparing baseline and steered states for the same paper
+ 
+Activation steering methods such as CAA, ITI, and BiPO modify internal
+activations without updating model weights. In our project, these methods
+provide the intervention mechanism, while J-Lens provides a separate
+measurement layer for analyzing what changes internally.
+ 
+Importantly, successful steering does not necessarily imply improved
+decodability. Steerable but Not Decodable evaluates function-vector
+steering using progressively stronger readout mechanisms, including
+Logit Lens, Tuned Lens, and nonlinear MLP probes, and shows that some
+behaviorally effective interventions remain difficult to decode
+\cite{nadaf2026steerable}. We therefore treat steering success and
+J-Lens accessibility as separate outcomes rather than assuming that one
+must imply the other.
+ 
+This distinction also affects how we compare internal states before and
+after intervention. A recent study using SAE feature steering together
+with a Jacobian lens finds that isolated post-steering states are nearly
+uninformative for identifying steering provenance, whereas paired
+clean-versus-steered comparisons for the same prompt are substantially
+more informative \cite{jones2026saesteering}. This motivates using
+within-paper changes, rather than absolute post-steering scores, as the
+primary unit of mechanistic analysis.
+ 
+ 
+\subsection{Steering Specificity and Control Design}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% we need baseline、negative、random、unrelated controls. control experiment can help us distinguish effects specific to the learned steering direction from changes caused by generic activation perturbation.
+ 
+A further concern is that large behavioral effects do not by themselves
+demonstrate that a steering direction captures the intended semantic
+property. In a replication of evaluation-awareness steering, a
+semantically unrelated control contrast involving ``top shelf'' versus
+``bottom shelf'' produced one of the largest behavioral changes observed
+under some intervention settings \cite{read2026evaluationsteering}.
+The same study also reports strong dependence on intervention magnitude
+and non-monotonic effects across steering strengths.
+ 
+These findings motivate a control structure that separates semantic
+specificity from generic activation perturbation. Our test protocol
+therefore includes a no-steering baseline, the learned positive
+direction, the corresponding negative direction, and a norm-matched
+random direction. When computationally feasible, we additionally include
+a semantically unrelated direction. Only if the learned direction
+outperforms these controls on held-out papers do we interpret it as
+evidence for a recall-associated steering effect.
+ 
+\subsection{Sampling, Selection, and Recognition Tests}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Minyan: why recognition must be measured with controls, and why generate-then-select is the natural black-box method.
+ 
+Memory research describes recall as two steps: generating candidates and then recognizing the right one~\cite{kintsch1970models,anderson1972recognition}. This view separates two ways in which an LLM can fail to name an author: the correct name is never produced, or it is produced in some samples but not chosen. Gekhman et al.~\cite{gekhman2025insideout} show that models know more internally than they express, and that some answers are almost never sampled even though the model would rank them first if they appeared, which limits what repeated sampling alone can achieve. Calderon et al.~\cite{calderon2026emptyshelves} find that thinking recovers part of the facts that frontier models encode but do not recall directly, which makes thinking a natural baseline for generate-then-select.
+
+Repeated sampling addresses the first kind of failure. Across coding and mathematics tasks, coverage, the fraction of problems solved by at least one sample, keeps growing with the number of samples, but in domains without automatic verifiers, majority voting and reward models plateau after a few hundred samples~\cite{brown2024monkeys}. Choosing among samples is thus a bottleneck of its own. Self-consistency picks the most frequent answer~\cite{wang2023selfconsistency}, universal self-consistency asks the model itself to select the most consistent of several free-form answers~\cite{chen2023usc}, models can judge their own samples through P(True)~\cite{kadavath2022know}, and verifiers trained on hidden states can choose among them~\cite{orgad2025knowmore}. Candidate scores can further be corrected for surface-form frequency with pointwise mutual information (PMI)~\cite{holtzman2021surface}, which matters for author names because common surnames are likely a priori. The direction of a query also affects what a model can retrieve~\cite{berglund2024reversal}: reverse questions are recognized but hard to recall~\cite{calderon2026emptyshelves}.
+ 
+Recognition itself must be measured with care. LLMs often answer multiple-choice questions from the options alone~\cite{balepur2024artifacts} and prefer certain option positions or letters~\cite{zheng2024mcq}. For authorship, a real author team is also easier to spot than a random list of names, because its members tend to share an institution and a language background. The multiple-choice test of Zhong et al.\ drew its distractors from random same-field names~\cite{zhong2026dreaming}, which leaves these cues in place. A multiple-choice result therefore shows what a model knows only after these shortcuts are controlled.
+
+Our work differs from these studies in three ways. First, prior work on sampling and selection mostly evaluates reasoning tasks or general factual questions, whereas we study long-tail facts whose answers are sets of names, and we report results across the full citation range. Second, we separate, for each paper, failures in which the correct author is never generated from failures in which it is generated but not chosen, so that each method can be matched to the failures it can fix. Third, we measure recognition with distractors drawn from real author teams and with controls that should stay at chance, so that a paper counts as held but not recalled only when the test cannot be passed from the options alone.
+ 
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}

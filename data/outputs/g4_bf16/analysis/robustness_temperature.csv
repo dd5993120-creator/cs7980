@@ -1,0 +1,3 @@
+sampling,papers,cov50_true,cov10_true,cov50_chance,cov10_chance,cov50_chance_topic,cov10_chance_topic,distinct_lists
+"T=1.0, top-p 1, no top-k (main run)",1023,0.2475,0.131,0.0133,0.0041,0.0191,0.0061,47.3597
+"T=0.7, top-p 0.8, top-k 20",1023,0.2125,0.1363,0.0101,0.0044,0.0132,0.0056,41.5855

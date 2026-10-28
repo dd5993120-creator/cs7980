@@ -1,0 +1,114 @@
+┌───────────────────── Traceback (most recent call last) ─────────────────────┐
+│ C:\Users\asc\Capstone-GtS\.venv-colab\Lib\site-packages\jupyter_kernel_clie │
+│ nt\wsclient.py:1353 in _recv_reply                                          │
+│                                                                             │
+│   1350 │   │   │   │   if channel == "control":                             │
+│   1351 │   │   │   │   │   reply =                                          │
+│        self.control_channel.get_msg(timeout=timeout)                        │
+│   1352 │   │   │   │   else:                                                │
+│ > 1353 │   │   │   │   │   reply =                                          │
+│        self.shell_channel.get_msg(timeout=timeout)                          │
+│   1354 │   │   │   except queue.Empty as e:                                 │
+│   1355 │   │   │   │   msg = "Timeout waiting for reply"                    │
+│   1356 │   │   │   │   raise TimeoutError(msg) from e                       │
+│                                                                             │
+│ C:\Users\asc\Capstone-GtS\.venv-colab\Lib\site-packages\jupyter_kernel_clie │
+│ nt\wsclient.py:411 in get_msg                                               │
+│                                                                             │
+│    408 │   │   ------                                                       │
+│    409 │   │   Empty exception if no message is received before the         │
+│        timeout.                                                             │
+│    410 │   │   """                                                          │
+│ >  411 │   │   return self._messages.get(timeout=timeout)                   │
+│    412 │                                                                    │
+│    413 │   def get_msgs(self) -> list[dict[str, t.Any]]:                    │
+│    414 │   │   """Get all available messages.                               │
+│                                                                             │
+│ C:\Users\asc\AppData\Local\Programs\Python\Python312\Lib\queue.py:179 in    │
+│ get                                                                         │
+│                                                                             │
+│   176 │   │   │   │   while not self._qsize():                              │
+│   177 │   │   │   │   │   remaining = endtime - time()                      │
+│   178 │   │   │   │   │   if remaining <= 0.0:                              │
+│ > 179 │   │   │   │   │   │   raise Empty                                   │
+│   180 │   │   │   │   │   self.not_empty.wait(remaining)                    │
+│   181 │   │   │   item = self._get()                                        │
+│   182 │   │   │   self.not_full.notify()                                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+Empty
+
+The above exception was the direct cause of the following exception:
+
+┌───────────────────── Traceback (most recent call last) ─────────────────────┐
+│ C:\Users\asc\Capstone-GtS\.venv-colab\Lib\site-packages\colab_cli\commands\ │
+│ execution.py:227 in exec_command                                            │
+│                                                                             │
+│   224 │   │   │   )                                                         │
+│   225 │   │   │   state.prune_session(name)                                 │
+│   226 │   │   │   raise typer.Exit(1)                                       │
+│ > 227 │   │   raise e                                                       │
+│   228 │                                                                     │
+│   229 │   try:                                                              │
+│   230 │   │   is_nb = file and file.endswith(".ipynb")                      │
+│                                                                             │
+│ C:\Users\asc\Capstone-GtS\.venv-colab\Lib\site-packages\colab_cli\commands\ │
+│ execution.py:217 in exec_command                                            │
+│                                                                             │
+│   214 │   )                                                                 │
+│   215 │   try:                                                              │
+│   216 │   │   # Ensure we are in /content which is the standard Colab       │
+│       working directory                                                     │
+│ > 217 │   │   runtime.execute_code(                                         │
+│   218 │   │   │   "import os; os.makedirs('/content', exist_ok=True);       │
+│       os.chdir('/content')"                                                 │
+│   219 │   │   )                                                             │
+│   220 │   except Exception as e:                                            │
+│                                                                             │
+│ C:\Users\asc\Capstone-GtS\.venv-colab\Lib\site-packages\colab_cli\runtime.p │
+│ y:243 in execute_code                                                       │
+│                                                                             │
+│   240 │   │   │   # execute_interactive returns the raw reply message       │
+│   241 │   │   │   reply_content = reply["content"] if reply else {"status": │
+│       "error"}                                                              │
+│   242 │   │   else:                                                         │
+│ > 243 │   │   │   reply = self.kernel_client.execute(code, **kwargs)        │
+│   244 │   │   │   if not reply:                                             │
+│   245 │   │   │   │   return []                                             │
+│   246 │   │   │   outputs = reply.get("outputs", [])                        │
+│                                                                             │
+│ C:\Users\asc\Capstone-GtS\.venv-colab\Lib\site-packages\jupyter_kernel_clie │
+│ nt\client.py:287 in execute                                                 │
+│                                                                             │
+│   284 │   │   """                                                           │
+│   285 │   │   outputs = []                                                  │
+│   286 │   │   self._set_variables(variables)                                │
+│ > 287 │   │   reply = self._manager.client.execute_interactive(             │
+│   288 │   │   │   code,                                                     │
+│   289 │   │   │   silent=silent,                                            │
+│   290 │   │   │   store_history=store_history,                              │
+│                                                                             │
+│ C:\Users\asc\Capstone-GtS\.venv-colab\Lib\site-packages\jupyter_kernel_clie │
+│ nt\wsclient.py:1112 in execute_interactive                                  │
+│                                                                             │
+│   1109 │   │   │   # output is done, get the reply                          │
+│   1110 │   │   │   if timeout is not None:                                  │
+│   1111 │   │   │   │   timeout = max(0, deadline - time.monotonic())        │
+│ > 1112 │   │   │   return self._recv_reply(msg_id, timeout=timeout)         │
+│   1113 │                                                                    │
+│   1114 │   def is_alive(self) -> bool:                                      │
+│   1115 │   │   """Is the kernel process still running?"""                   │
+│                                                                             │
+│ C:\Users\asc\Capstone-GtS\.venv-colab\Lib\site-packages\jupyter_kernel_clie │
+│ nt\wsclient.py:1356 in _recv_reply                                          │
+│                                                                             │
+│   1353 │   │   │   │   │   reply =                                          │
+│        self.shell_channel.get_msg(timeout=timeout)                          │
+│   1354 │   │   │   except queue.Empty as e:                                 │
+│   1355 │   │   │   │   msg = "Timeout waiting for reply"                    │
+│ > 1356 │   │   │   │   raise TimeoutError(msg) from e                       │
+│   1357 │   │   │   if reply["parent_header"].get("msg_id") != msg_id:       │
+│   1358 │   │   │   │   self.log.debug("Ignoring message not from request:   │
+│        %s", msg_id)                                                         │
+│   1359 │   │   │   │   continue                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+TimeoutError: Timeout waiting for reply

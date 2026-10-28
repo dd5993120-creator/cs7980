@@ -1,0 +1,25 @@
+(MainProcess pid=4920) WARNING 10-26 08:54:34 [jit_monitor.py:140] Triton kernel JIT compilation during inference: _topk_log_softmax_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.
+08:55:30 alive
+08:56:10 [mc] chunk 000: 5000 items, 100s
+08:56:30 alive
+08:57:30 alive
+08:57:51 [mc] chunk 001: 5000 items, 101s
+08:58:30 alive
+08:59:29 [mc] chunk 002: 5000 items, 98s
+08:59:30 alive
+09:00:30 alive
+09:01:06 [mc] chunk 003: 5000 items, 98s
+09:01:30 alive
+09:02:30 alive
+09:02:47 [mc] chunk 004: 5000 items, 100s
+09:03:30 alive
+09:04:27 [mc] chunk 005: 5000 items, 100s
+09:04:30 alive
+09:05:30 alive
+09:06:03 [mc] chunk 006: 5000 items, 96s
+09:06:30 alive
+09:07:30 alive
+09:07:43 [mc] chunk 007: 5000 items, 100s
+09:08:30 alive
+09:09:10 [mc] chunk 008: 4616 items, 87s
+09:09:10 mc real_team done in 880s; per-question accuracy {'standard': 0.756, 'title_hidden': 0.351, 'title_swapped': 0.256}; >=3 of 4 orders {'standard': 0.703, 'title_hidden': 0.238, 'title_swapped': 0.157}; no letter in top-20: 0

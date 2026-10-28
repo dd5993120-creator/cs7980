@@ -1,0 +1,132 @@
+/c/Users/asc/Capstone-GtS/tools/mirror_remote.sh: line 13: data/outputs/s2/progress.log: No such file or directory
+13:17:12 remote_steps loaded
+13:17:21 spec {'model': 'Qwen/Qwen3-32B', 'dtype': 'bfloat16', 'max_num_seqs': 1024, 'gpu_memory_utilization': 0.92, 'precision': 'bf16', 'max_model_len': 4096, 'gpu_gib': 95.6, 'free_disk_gib': 87.0}
+13:21:30 model loaded in 249s
+13:23:08 [mc] chunk 000: 5000 items, 98s
+MIRROR: mc_real_team_year/chunk_000.jsonl.gz
+MIRROR: mc_real_team_year/chunk_001.jsonl.gz
+13:24:48 [mc] chunk 001: 5000 items, 100s
+13:26:27 [mc] chunk 002: 5000 items, 98s
+MIRROR: mc_real_team_year/chunk_002.jsonl.gz
+13:28:04 [mc] chunk 003: 5000 items, 97s
+MIRROR: mc_real_team_year/chunk_003.jsonl.gz
+13:29:44 [mc] chunk 004: 5000 items, 100s
+MIRROR: mc_real_team_year/chunk_004.jsonl.gz
+13:31:23 [mc] chunk 005: 5000 items, 99s
+MIRROR: mc_real_team_year/chunk_005.jsonl.gz
+13:32:58 [mc] chunk 006: 5000 items, 95s
+MIRROR: mc_real_team_year/chunk_006.jsonl.gz
+13:34:38 [mc] chunk 007: 5000 items, 100s
+MIRROR: mc_real_team_year/chunk_007.jsonl.gz
+13:36:05 [mc] chunk 008: 4616 items, 87s
+13:36:06 mc real_team_year done in 876s; per-question accuracy {'standard': 0.727, 'title_hidden': 0.289, 'title_swapped': 0.266}; >=3 of 4 orders {'standard': 0.668, 'title_hidden': 0.176, 'title_swapped': 0.158}; no letter in top-20: 0
+MIRROR: mc_cand_mc/chunk_000.jsonl.gz
+MIRROR: mc_real_team_year/chunk_008.jsonl.gz
+13:36:59 [mc] chunk 000: 5000 items, 53s
+13:37:52 [mc] chunk 001: 5000 items, 53s
+MIRROR: mc_cand_mc/chunk_001.jsonl.gz
+13:38:45 [mc] chunk 002: 5000 items, 53s
+MIRROR: mc_cand_mc/chunk_002.jsonl.gz
+13:39:38 [mc] chunk 003: 5000 items, 53s
+MIRROR: mc_cand_mc/chunk_003.jsonl.gz
+13:40:31 [mc] chunk 004: 5000 items, 53s
+13:41:24 [mc] chunk 005: 5000 items, 53s
+MIRROR: mc_cand_mc/chunk_004.jsonl.gz
+MIRROR: mc_cand_mc/chunk_005.jsonl.gz
+13:42:17 [mc] chunk 006: 5000 items, 53s
+13:42:31 [mc] chunk 007: 1332 items, 14s
+13:42:32 mc cand_mc done in 386s; per-question accuracy {'standard': 0.346}; >=3 of 4 orders {'standard': 0.288}; no letter in top-20: 0
+MIRROR: mc_cand_mc/chunk_006.jsonl.gz
+MIRROR: mc_cand_mc/chunk_007.jsonl.gz
+13:45:07 [samples_t07] chunk 000: 250 papers, 415,668 tokens, 155s (2,675 tok/s)
+MIRROR: samples_t07/chunk_000.jsonl.gz
+13:47:27 [samples_t07] chunk 001: 250 papers, 396,023 tokens, 140s (2,828 tok/s)
+MIRROR: samples_t07/chunk_001.jsonl.gz
+13:49:47 [samples_t07] chunk 002: 250 papers, 395,875 tokens, 140s (2,827 tok/s)
+MIRROR: samples_t07/chunk_002.jsonl.gz
+13:52:03 [samples_t07] chunk 003: 250 papers, 381,021 tokens, 135s (2,815 tok/s)
+13:52:15 [samples_t07] chunk 004: 23 papers, 31,971 tokens, 12s (2,681 tok/s)
+13:52:15 samples_t07 done in 583s for 1023 papers
+13:52:15 session2_mc finished
+MIRROR: samples_t07/chunk_003.jsonl.gz
+MIRROR: samples_t07/chunk_004.jsonl.gz
+13:57:06 [cot] chunk 000: 500 papers, 326,179 tokens, 276s (1,183 tok/s)
+MIRROR: cot_test/chunk_000.jsonl.gz
+14:02:00 [cot] chunk 001: 500 papers, 326,047 tokens, 294s (1,111 tok/s)
+MIRROR: cot_test/chunk_001.jsonl.gz
+14:06:49 [cot] chunk 002: 500 papers, 321,759 tokens, 290s (1,111 tok/s)
+MIRROR: cot_test/chunk_002.jsonl.gz
+14:11:45 [cot] chunk 003: 500 papers, 342,848 tokens, 296s (1,157 tok/s)
+MIRROR: cot_test/chunk_003.jsonl.gz
+14:15:59 [cot] chunk 004: 500 papers, 310,933 tokens, 254s (1,226 tok/s)
+MIRROR: cot_test/chunk_004.jsonl.gz
+14:20:59 [cot] chunk 005: 500 papers, 330,253 tokens, 300s (1,100 tok/s)
+MIRROR: cot_test/chunk_005.jsonl.gz
+14:25:47 [cot] chunk 006: 500 papers, 310,560 tokens, 287s (1,081 tok/s)
+MIRROR: cot_test/chunk_006.jsonl.gz
+14:30:41 [cot] chunk 007: 500 papers, 321,922 tokens, 294s (1,095 tok/s)
+MIRROR: cot_test/chunk_007.jsonl.gz
+14:35:37 [cot] chunk 008: 500 papers, 329,041 tokens, 297s (1,109 tok/s)
+MIRROR: cot_test/chunk_008.jsonl.gz
+14:39:51 [cot] chunk 009: 500 papers, 323,952 tokens, 254s (1,277 tok/s)
+MIRROR: cot_test/chunk_009.jsonl.gz
+14:44:31 [cot] chunk 010: 500 papers, 313,419 tokens, 280s (1,119 tok/s)
+MIRROR: cot_test/chunk_010.jsonl.gz
+14:49:15 [cot] chunk 011: 500 papers, 320,634 tokens, 284s (1,131 tok/s)
+MIRROR: cot_test/chunk_011.jsonl.gz
+14:53:25 [cot] chunk 012: 374 papers, 240,056 tokens, 250s (961 tok/s)
+14:53:25 cot test done in 3654s for 6374 papers
+MIRROR: cot_test/chunk_012.jsonl.gz
+14:53:58 session2b loaded
+14:58:43 [cot] chunk 000: 500 papers, 324,445 tokens, 285s (1,138 tok/s)
+15:02:55 [cot] chunk 001: 500 papers, 315,063 tokens, 252s (1,249 tok/s)
+MIRROR: cot_tune/chunk_001.jsonl.gz
+15:07:44 [cot] chunk 002: 500 papers, 325,686 tokens, 289s (1,128 tok/s)
+MIRROR: cot_tune/chunk_002.jsonl.gz
+15:11:08 [cot] chunk 003: 500 papers, 310,321 tokens, 204s (1,520 tok/s)
+MIRROR: cot_tune/chunk_003.jsonl.gz
+15:15:45 [cot] chunk 004: 500 papers, 321,413 tokens, 277s (1,160 tok/s)
+MIRROR: cot_tune/chunk_004.jsonl.gz
+15:18:54 [cot] chunk 005: 234 papers, 151,971 tokens, 189s (803 tok/s)
+15:18:54 cot tune done in 1496s for 2734 papers
+MIRROR: cot_tune/chunk_005.jsonl.gz
+15:22:47 [samples200] chunk 000: 100 papers, 662,745 tokens, 233s (2,845 tok/s)
+MIRROR: samples200/chunk_000.jsonl.gz
+MIRROR: samples200/chunk_001.jsonl.gz
+/c/Users/asc/Capstone-GtS/tools/mirror_remote.sh: line 18: data/outputs/s2/progress.log.new: No such file or directory
+/c/Users/asc/Capstone-GtS/tools/mirror_remote.sh: line 19: [: : integer expected
+mv: cannot stat 'data/outputs/s2/progress.log.new': No such file or directory
+15:26:48 [samples200] chunk 001: 100 papers, 708,289 tokens, 241s (2,944 tok/s)
+MIRROR: samples200/chunk_002.jsonl.gz
+15:30:39 [samples200] chunk 002: 100 papers, 664,937 tokens, 232s (2,868 tok/s)
+15:34:11 [samples200] chunk 003: 100 papers, 627,537 tokens, 212s (2,967 tok/s)
+15:37:44 [samples200] chunk 004: 100 papers, 615,542 tokens, 213s (2,893 tok/s)
+15:41:19 [samples200] chunk 005: 100 papers, 639,635 tokens, 215s (2,971 tok/s)
+15:45:07 [samples200] chunk 006: 100 papers, 674,210 tokens, 228s (2,956 tok/s)
+15:48:21 [samples200] chunk 007: 100 papers, 559,787 tokens, 194s (2,893 tok/s)
+15:52:13 [samples200] chunk 008: 100 papers, 669,771 tokens, 233s (2,877 tok/s)
+15:55:49 [samples200] chunk 009: 100 papers, 614,573 tokens, 216s (2,851 tok/s)
+15:56:40 [samples200] chunk 010: 23 papers, 135,686 tokens, 51s (2,653 tok/s)
+15:56:40 samples200 done in 2266s for 1023 papers
+15:56:40 session2b_part1 finished
+16:00:58 [cot5] chunk 000: 100 papers, 308,450 tokens, 240s (1,283 tok/s)
+16:05:09 [cot5] chunk 001: 100 papers, 329,047 tokens, 251s (1,311 tok/s)
+16:09:38 [cot5] chunk 002: 100 papers, 325,768 tokens, 269s (1,211 tok/s)
+16:13:43 [cot5] chunk 003: 100 papers, 314,624 tokens, 245s (1,283 tok/s)
+MIRROR: cot5/chunk_003.jsonl.gz
+16:18:15 [cot5] chunk 004: 100 papers, 311,524 tokens, 272s (1,147 tok/s)
+16:22:24 [cot5] chunk 005: 100 papers, 329,929 tokens, 249s (1,323 tok/s)
+16:26:49 [cot5] chunk 006: 100 papers, 312,520 tokens, 265s (1,182 tok/s)
+16:31:17 [cot5] chunk 007: 100 papers, 304,298 tokens, 268s (1,134 tok/s)
+16:35:47 [cot5] chunk 008: 100 papers, 324,494 tokens, 270s (1,204 tok/s)
+16:40:12 [cot5] chunk 009: 100 papers, 306,096 tokens, 265s (1,155 tok/s)
+16:41:37 [cot5] chunk 010: 23 papers, 75,240 tokens, 85s (883 tok/s)
+16:41:37 cot5 done in 2679s for 1023 papers
+16:41:37 meta {'model': 'Qwen/Qwen3-32B', 'precision': 'bf16', 'gpu_gib': 95.6, 'gpu_name': 'NVIDIA RTX PRO 6000 Blackwell Server Edition', 'vllm': '0.32.0', 'torch': '2.13.0+cu130', 'max_new_tokens': 96, 'greedy': {'n': 1, 'temperature': 0.0}, 'samples': {'n': 50, 'temperature': 1.0, 'top_p': 1.0, 'top_k': 'off', 'seed': 'per paper'}, 'mc': {'temperature': 0.0, 'max_tokens': 1, 'top_logprobs': 20}, 'written_utc': '2026-10-26T16:41:37Z', 'session': 2, 'cot': {'temperature': 0.6, 'top_p': 0.95, 'top_k': 20, 'max_tokens': 3500}, 'samples_t07': {'temperature': 0.7, 'top_p': 0.8, 'top_k': 20, 'n': 50}, 'samples200': {'temperature': 1.0, 'top_p': 1.0, 'n': 200, 'papers': 'control subset'}, 'cot5': {'n': 5, 'temperature': 0.6, 'top_p': 0.95, 'top_k': 20, 'papers': 'control subset'}}
+16:41:37 packed /content/outputs_s2.tar.gz (21.2 MB)
+16:41:37 ALL DONE
+MIRROR: cot5/chunk_010.jsonl.gz
+ 'top_k': 'off', 'seed': 'per paper'}, 'mc': {'temperature': 0.0, 'max_tokens': 1, 'top_logprobs': 20}, 'written_utc': '2026-10-26T16:41:37Z', 'session': 2, 'cot': {'temperature': 0.6, 'top_p': 0.95, 'top_k': 20, 'max_tokens': 3500}, 'samples_t07': {'temperature': 0.7, 'top_p': 0.8, 'top_k': 20, 'n': 50}, 'samples200': {'temperature': 1.0, 'top_p': 1.0, 'n': 200, 'papers': 'control subset'}, 'cot5': {'n': 5, 'temperature': 0.6, 'top_p': 0.95, 'top_k': 20, 'papers': 'control subset'}}
+16:41:37 packed /content/outputs_s2.tar.gz (21.2 MB)
+16:41:37 ALL DONE
+MIRROR: cot5/chunk_010.jsonl.gz

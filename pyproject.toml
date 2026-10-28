@@ -1,0 +1,12 @@
+[project]
+name = "gts"
+version = "0.1.0"
+description = "Generate-then-select track: sampling, recognition tests and selection on the Dreaming Up Authors benchmark"
+requires-python = ">=3.10"
+# nameparser and Unidecode are pinned to the release's versions: newer nameparser
+# parses "Md." and "LM" differently and changes 2 of the 9,108 shipped scores.
+dependencies = ["pandas", "numpy", "scipy", "nameparser==1.1.3", "Unidecode==1.3.8"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

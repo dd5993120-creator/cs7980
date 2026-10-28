@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+.venv-colab/
+
+# Node
+node_modules/
+
+# Office lock files
+~$*
+
+# Rebuilt by the analysis scripts; 173 MB, over GitHub's file size limit
+data/outputs/g4_bf16/analysis/pools.pkl
+# Archives as downloaded from Colab; their contents sit unpacked next to them
+data/outputs/**/*.tar.gz
+# Built by tools/make_colab_bundle.py
+colab/gts_bundle.zip

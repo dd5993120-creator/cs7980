@@ -1,0 +1,74 @@
+13:53:30 alive
+13:54:30 alive
+13:55:30 alive
+13:56:30 alive
+13:57:06 [cot] chunk 000: 500 papers, 326,179 tokens, 276s (1,183 tok/s)
+13:57:30 alive
+13:58:30 alive
+13:59:30 alive
+14:00:30 alive
+14:01:30 alive
+14:02:00 [cot] chunk 001: 500 papers, 326,047 tokens, 294s (1,111 tok/s)
+14:02:30 alive
+14:03:30 alive
+14:04:30 alive
+14:05:30 alive
+14:06:30 alive
+14:06:49 [cot] chunk 002: 500 papers, 321,759 tokens, 290s (1,111 tok/s)
+14:07:30 alive
+14:08:30 alive
+14:09:30 alive
+14:10:30 alive
+14:11:30 alive
+14:11:45 [cot] chunk 003: 500 papers, 342,848 tokens, 296s (1,157 tok/s)
+14:12:30 alive
+14:13:30 alive
+14:14:30 alive
+14:15:30 alive
+14:15:59 [cot] chunk 004: 500 papers, 310,933 tokens, 254s (1,226 tok/s)
+14:16:30 alive
+14:17:30 alive
+14:18:30 alive
+14:19:30 alive
+14:20:30 alive
+14:20:59 [cot] chunk 005: 500 papers, 330,253 tokens, 300s (1,100 tok/s)
+14:21:30 alive
+14:22:30 alive
+14:23:30 alive
+14:24:30 alive
+14:25:30 alive
+14:25:47 [cot] chunk 006: 500 papers, 310,560 tokens, 287s (1,081 tok/s)
+14:26:30 alive
+14:27:30 alive
+14:28:30 alive
+14:29:30 alive
+14:30:30 alive
+14:30:41 [cot] chunk 007: 500 papers, 321,922 tokens, 294s (1,095 tok/s)
+14:31:30 alive
+14:32:30 alive
+14:33:30 alive
+14:34:30 alive
+14:35:30 alive
+14:35:37 [cot] chunk 008: 500 papers, 329,041 tokens, 297s (1,109 tok/s)
+14:36:30 alive
+14:37:30 alive
+14:38:30 alive
+14:39:30 alive
+14:39:51 [cot] chunk 009: 500 papers, 323,952 tokens, 254s (1,277 tok/s)
+14:40:30 alive
+14:41:30 alive
+14:42:30 alive
+14:43:30 alive
+14:44:30 alive
+14:44:31 [cot] chunk 010: 500 papers, 313,419 tokens, 280s (1,119 tok/s)
+14:45:30 alive
+14:46:30 alive
+14:47:30 alive
+14:48:30 alive
+14:49:15 [cot] chunk 011: 500 papers, 320,634 tokens, 284s (1,131 tok/s)
+14:49:30 alive
+14:50:30 alive
+14:51:30 alive
+14:52:30 alive
+14:53:25 [cot] chunk 012: 374 papers, 240,056 tokens, 250s (961 tok/s)
+14:53:25 cot test done in 3654s for 6374 papers

@@ -1,0 +1,45 @@
+07:52:57 remote_steps loaded
+07:53:08 spec {'model': 'Qwen/Qwen3-32B', 'dtype': 'bfloat16', 'max_num_seqs': 1024, 'gpu_memory_utilization': 0.92, 'precision': 'bf16', 'gpu_gib': 95.6, 'free_disk_gib': 87.0}
+07:57:16 model loaded in 248s
+08:01:48 [samples] chunk 006: 500 papers, 777,100 tokens, 271s (2,864 tok/s)
+08:06:30 [samples] chunk 007: 500 papers, 802,079 tokens, 282s (2,840 tok/s)
+08:11:08 [samples] chunk 008: 500 papers, 796,646 tokens, 278s (2,870 tok/s)
+08:15:47 [samples] chunk 009: 500 papers, 797,753 tokens, 279s (2,855 tok/s)
+08:20:35 [samples] chunk 010: 500 papers, 829,602 tokens, 288s (2,881 tok/s)
+08:25:15 [samples] chunk 011: 500 papers, 797,848 tokens, 279s (2,856 tok/s)
+08:29:44 [samples] chunk 012: 500 papers, 772,522 tokens, 270s (2,864 tok/s)
+08:34:24 [samples] chunk 013: 500 papers, 800,702 tokens, 280s (2,860 tok/s)
+08:39:09 [samples] chunk 014: 500 papers, 810,361 tokens, 285s (2,842 tok/s)
+08:43:46 [samples] chunk 015: 500 papers, 790,364 tokens, 277s (2,856 tok/s)
+08:48:18 [samples] chunk 016: 500 papers, 780,797 tokens, 272s (2,871 tok/s)
+08:52:59 [samples] chunk 017: 500 papers, 788,745 tokens, 280s (2,813 tok/s)
+08:53:58 [samples] chunk 018: 108 papers, 168,245 tokens, 60s (2,817 tok/s)
+08:53:59 samples done in 3402s; mean distinct lists per paper (first 200 papers): 48.7 of 50
+08:56:10 [mc] chunk 000: 5000 items, 100s
+08:57:51 [mc] chunk 001: 5000 items, 101s
+08:59:29 [mc] chunk 002: 5000 items, 98s
+09:01:06 [mc] chunk 003: 5000 items, 98s
+09:02:47 [mc] chunk 004: 5000 items, 100s
+09:04:27 [mc] chunk 005: 5000 items, 100s
+09:06:03 [mc] chunk 006: 5000 items, 96s
+09:07:43 [mc] chunk 007: 5000 items, 100s
+09:09:10 [mc] chunk 008: 4616 items, 87s
+09:09:10 mc real_team done in 880s; per-question accuracy {'standard': 0.756, 'title_hidden': 0.351, 'title_swapped': 0.256}; >=3 of 4 orders {'standard': 0.703, 'title_hidden': 0.238, 'title_swapped': 0.157}; no letter in top-20: 0
+09:16:06 [mc] chunk 000: 5000 items, 98s
+09:17:45 [mc] chunk 001: 5000 items, 99s
+09:19:22 [mc] chunk 002: 5000 items, 97s
+09:20:57 [mc] chunk 003: 5000 items, 95s
+09:22:36 [mc] chunk 004: 5000 items, 99s
+09:24:14 [mc] chunk 005: 5000 items, 98s
+09:25:49 [mc] chunk 006: 5000 items, 94s
+09:27:27 [mc] chunk 007: 5000 items, 98s
+09:28:53 [mc] chunk 008: 4616 items, 86s
+09:28:54 mc own_sample done in 866s; per-question accuracy {'standard': 0.496, 'title_hidden': 0.372, 'title_swapped': 0.274}; >=3 of 4 orders {'standard': 0.412, 'title_hidden': 0.252, 'title_swapped': 0.155}; no letter in top-20: 0
+09:30:34 [ptrue] chunk 000: 10000 candidates, 100s
+09:32:14 [ptrue] chunk 001: 10000 candidates, 100s
+09:33:53 [ptrue] chunk 002: 10000 candidates, 99s
+09:35:32 [ptrue] chunk 003: 10000 candidates, 99s
+09:37:11 [ptrue] chunk 004: 10000 candidates, 99s
+09:38:50 [ptrue] chunk 005: 10000 candidates, 99s
+09:40:30 [ptrue] chunk 006: 10000 candidates, 100s
+09:42:10 [ptrue] chunk 007: 10000 candidates, 100s

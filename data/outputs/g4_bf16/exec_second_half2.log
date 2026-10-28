@@ -1,0 +1,53 @@
+09:15:28 alive
+09:16:06 [mc] chunk 000: 5000 items, 98s
+09:16:28 alive
+09:17:28 alive
+09:17:45 [mc] chunk 001: 5000 items, 99s
+09:18:28 alive
+09:19:22 [mc] chunk 002: 5000 items, 97s
+09:19:28 alive
+09:20:28 alive
+09:20:57 [mc] chunk 003: 5000 items, 95s
+09:21:28 alive
+09:22:28 alive
+09:22:36 [mc] chunk 004: 5000 items, 99s
+09:23:28 alive
+09:24:14 [mc] chunk 005: 5000 items, 98s
+09:24:28 alive
+09:25:28 alive
+09:25:49 [mc] chunk 006: 5000 items, 94s
+09:26:28 alive
+09:27:27 [mc] chunk 007: 5000 items, 98s
+09:27:28 alive
+09:28:28 alive
+09:28:53 [mc] chunk 008: 4616 items, 86s
+09:28:54 mc own_sample done in 866s; per-question accuracy {'standard': 0.496, 'title_hidden': 0.372, 'title_swapped': 0.274}; >=3 of 4 orders {'standard': 0.412, 'title_hidden': 0.252, 'title_swapped': 0.155}; no letter in top-20: 0
+09:29:28 alive
+09:30:28 alive
+09:30:34 [ptrue] chunk 000: 10000 candidates, 100s
+09:31:28 alive
+09:32:14 [ptrue] chunk 001: 10000 candidates, 100s
+09:32:28 alive
+09:33:28 alive
+09:33:53 [ptrue] chunk 002: 10000 candidates, 99s
+09:34:28 alive
+09:35:28 alive
+09:35:32 [ptrue] chunk 003: 10000 candidates, 99s
+09:36:28 alive
+09:37:11 [ptrue] chunk 004: 10000 candidates, 99s
+09:37:28 alive
+09:38:28 alive
+09:38:50 [ptrue] chunk 005: 10000 candidates, 99s
+09:39:28 alive
+09:40:28 alive
+09:40:30 [ptrue] chunk 006: 10000 candidates, 100s
+09:41:28 alive
+09:42:10 [ptrue] chunk 007: 10000 candidates, 100s
+09:42:28 alive
+09:43:28 alive
+09:43:49 [ptrue] chunk 008: 10000 candidates, 99s
+09:43:57 [ptrue] chunk 009: 745 candidates, 8s
+09:43:57 ptrue done in 903s for 90745 candidates
+09:43:57 meta {'model': 'Qwen/Qwen3-32B', 'precision': 'bf16', 'gpu_gib': 95.6, 'gpu_name': 'NVIDIA RTX PRO 6000 Blackwell Server Edition', 'vllm': '0.32.0', 'torch': '2.13.0+cu130', 'max_new_tokens': 96, 'greedy': {'n': 1, 'temperature': 0.0}, 'samples': {'n': 50, 'temperature': 1.0, 'top_p': 1.0, 'top_k': 'off', 'seed': 'per paper'}, 'mc': {'temperature': 0.0, 'max_tokens': 1, 'top_logprobs': 20}, 'written_utc': '2026-10-26T09:43:57Z'}
+09:43:57 packed /content/outputs.tar.gz (24.9 MB)
+09:43:57 ALL DONE

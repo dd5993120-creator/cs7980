@@ -1,0 +1,83 @@
+14:53:58 session2b loaded
+14:54:58 alive
+14:55:58 alive
+14:56:58 alive
+14:57:58 alive
+14:58:43 [cot] chunk 000: 500 papers, 324,445 tokens, 285s (1,138 tok/s)
+14:58:58 alive
+14:59:58 alive
+15:00:58 alive
+15:01:58 alive
+15:02:55 [cot] chunk 001: 500 papers, 315,063 tokens, 252s (1,249 tok/s)
+15:02:58 alive
+15:03:58 alive
+15:04:58 alive
+15:05:58 alive
+15:06:58 alive
+15:07:44 [cot] chunk 002: 500 papers, 325,686 tokens, 289s (1,128 tok/s)
+15:07:58 alive
+15:08:58 alive
+15:09:58 alive
+15:10:58 alive
+15:11:08 [cot] chunk 003: 500 papers, 310,321 tokens, 204s (1,520 tok/s)
+15:11:58 alive
+15:12:58 alive
+15:13:58 alive
+15:14:58 alive
+15:15:45 [cot] chunk 004: 500 papers, 321,413 tokens, 277s (1,160 tok/s)
+15:15:58 alive
+15:16:58 alive
+15:17:58 alive
+15:18:54 [cot] chunk 005: 234 papers, 151,971 tokens, 189s (803 tok/s)
+15:18:54 cot tune done in 1496s for 2734 papers
+15:18:58 alive
+15:19:58 alive
+15:20:58 alive
+15:21:58 alive
+15:22:47 [samples200] chunk 000: 100 papers, 662,745 tokens, 233s (2,845 tok/s)
+15:22:58 alive
+15:23:58 alive
+15:24:58 alive
+15:25:58 alive
+15:26:48 [samples200] chunk 001: 100 papers, 708,289 tokens, 241s (2,944 tok/s)
+15:26:58 alive
+15:27:58 alive
+15:28:58 alive
+15:29:58 alive
+15:30:39 [samples200] chunk 002: 100 papers, 664,937 tokens, 232s (2,868 tok/s)
+15:30:58 alive
+15:31:58 alive
+15:32:58 alive
+15:33:58 alive
+15:34:11 [samples200] chunk 003: 100 papers, 627,537 tokens, 212s (2,967 tok/s)
+15:34:58 alive
+15:35:58 alive
+15:36:58 alive
+15:37:44 [samples200] chunk 004: 100 papers, 615,542 tokens, 213s (2,893 tok/s)
+15:37:58 alive
+15:38:58 alive
+15:39:58 alive
+15:40:58 alive
+15:41:19 [samples200] chunk 005: 100 papers, 639,635 tokens, 215s (2,971 tok/s)
+15:41:58 alive
+15:42:58 alive
+15:43:58 alive
+15:44:58 alive
+15:45:07 [samples200] chunk 006: 100 papers, 674,210 tokens, 228s (2,956 tok/s)
+15:45:58 alive
+15:46:58 alive
+15:47:58 alive
+15:48:21 [samples200] chunk 007: 100 papers, 559,787 tokens, 194s (2,893 tok/s)
+15:48:58 alive
+15:49:58 alive
+15:50:58 alive
+15:51:58 alive
+15:52:13 [samples200] chunk 008: 100 papers, 669,771 tokens, 233s (2,877 tok/s)
+15:52:58 alive
+15:53:58 alive
+15:54:58 alive
+15:55:49 [samples200] chunk 009: 100 papers, 614,573 tokens, 216s (2,851 tok/s)
+15:55:58 alive
+15:56:40 [samples200] chunk 010: 23 papers, 135,686 tokens, 51s (2,653 tok/s)
+15:56:40 samples200 done in 2266s for 1023 papers
+15:56:40 session2b_part1 finished

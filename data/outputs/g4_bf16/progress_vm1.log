@@ -1,0 +1,17 @@
+06:55:34 remote_steps loaded
+06:55:36 spec {'model': 'Qwen/Qwen3-32B', 'dtype': 'bfloat16', 'max_num_seqs': 1024, 'gpu_memory_utilization': 0.92, 'precision': 'bf16', 'gpu_gib': 95.6, 'free_disk_gib': 87.0}
+06:59:42 model loaded in 246s
+07:00:53 [greedy] chunk 000: 2000 papers, 68,739 tokens, 38s (1,814 tok/s)
+07:01:30 [greedy] chunk 001: 2000 papers, 65,115 tokens, 37s (1,752 tok/s)
+07:02:08 [greedy] chunk 002: 2000 papers, 66,020 tokens, 38s (1,743 tok/s)
+07:02:46 [greedy] chunk 003: 2000 papers, 64,780 tokens, 38s (1,716 tok/s)
+07:03:07 [greedy] chunk 004: 1108 papers, 34,559 tokens, 21s (1,661 tok/s)
+07:03:07 greedy done in 172s: 9108 answers, identical to the paper run 52.4%, with <think> 0, empty 0
+07:07:58 [samples] chunk 000: 500 papers, 838,475 tokens, 291s (2,884 tok/s)
+07:12:40 [samples] chunk 001: 500 papers, 808,199 tokens, 282s (2,866 tok/s)
+07:17:34 [samples] chunk 002: 500 papers, 844,274 tokens, 294s (2,867 tok/s)
+07:22:22 [samples] chunk 003: 500 papers, 823,061 tokens, 288s (2,859 tok/s)
+07:27:11 [samples] chunk 004: 500 papers, 827,428 tokens, 289s (2,866 tok/s)
+07:31:48 [samples] chunk 005: 500 papers, 799,454 tokens, 277s (2,887 tok/s)
+07:36:20 [samples] chunk 006: 500 papers, 778,283 tokens, 272s (2,858 tok/s)
+07:41:03 [samples] chunk 007: 500 papers, 802,079 tokens, 283s (2,838 tok/s)
