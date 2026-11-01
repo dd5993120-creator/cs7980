@@ -1,0 +1,29 @@
+{
+  "model": "Qwen/Qwen3-32B",
+  "precision": "bf16",
+  "gpu_gib": 95.6,
+  "gpu_name": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "vllm": "0.32.0",
+  "torch": "2.13.0+cu130",
+  "max_new_tokens": 96,
+  "greedy": {
+    "n": 1,
+    "temperature": 0.0
+  },
+  "samples": {
+    "n": 50,
+    "temperature": 1.0,
+    "top_p": 1.0,
+    "top_k": "off",
+    "seed": "per paper"
+  },
+  "mc": {
+    "temperature": 0.0,
+    "max_tokens": 1,
+    "top_logprobs": 20
+  },
+  "written_utc": "2026-10-29T02:23:29Z",
+  "session": 3,
+  "scoring": "teacher-forced prompt log-probabilities (vLLM prompt_logprobs)",
+  "gpu_memory_utilization": 0.88
+}

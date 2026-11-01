@@ -1,0 +1,7 @@
+level,distractors,score,papers,AUC,true list scores highest
+L5,own_sample,log P(list | title),9108,0.5656199677938808,0.36572244180939834
+L5,own_sample,per token,9108,0.584211682037769,0.38274044795783924
+L5,own_sample,PMI (title shown - hidden),9108,0.5737446933099107,0.3546332894158981
+L1,real_team,log P(list | title),9108,0.8146318255013907,0.6620553359683794
+L1,real_team,per token,9108,0.8139364661103792,0.6685331576635924
+L1,real_team,PMI (title shown - hidden),9108,0.8766652027521593,0.7573561703996486

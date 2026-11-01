@@ -136,6 +136,13 @@ Frequency selection beats the default answer (0.969) from about 10 samples (320 
 1. **Measurement.** The team's "known" label is inflated by option cues.
    - Year-matched real teams and the title-swapped floor (about 16%) are the fair reference.
    - With the model's own wrong answers as distractors, a third of "known" papers drop out.
+   - Session 3 (sections 6-7):
+     - AUC over the four orders has no false-positive floor, so report it with the count rule.
+     - Single cues cost little: topic 5 points, year 3.5, prominence 2.
+     - What is hard is the exact team. Known falls to 36% when one co-author is swapped for a real
+       collaborator (L4) and to 41% against the model's own wrong lists (L5).
+     - Of the 6,179 papers known at L1, 3,021 also pass the catch trials, and 1,568 are known at every level.
+     - The release's collaborator-swap design leaks (title-swapped control 0.41). Use a shared slot.
 2. **Failure split.** At k = 50, 2,625 of the 6,179 known papers (42%) have a true author that the default
    answer misses but some sample names. Coverage keeps growing with k, so "never generated at k = 50" overstates
    what is unreachable.
@@ -145,6 +152,10 @@ Frequency selection beats the default answer (0.969) from about 10 samples (320 
    - A PMI-style background discount adds nothing.
    - Against thinking mode, frequency selection over ordinary samples ties at equal tokens on HR2 and wins on
      true and false names. Self-consistency over thinking answers is the strongest HR2 option at higher budgets.
+   - Session 3: scoring each candidate in the authors-to-title direction is the one addition that helps
+     frequency (+2.8 AUC points, +4 points top-1). Likelihood PMI and P(True) do not help it.
+   - Against its own wrong lists, the model's likelihood fails (AUC 0.57) while its choice does not (0.71).
+     Selection carries information beyond generation.
 
 ## Caveats
 
@@ -189,3 +200,187 @@ are better than the full sample's; compare rows within this section only.
 - Self-consistency over thinking answers has the better mean HR2 and invents fewer names.
 - Frequency over ordinary samples names more true authors.
 - At about 650 tokens (section 4) the two are tied on HR2, and ordinary samples win on true and false names.
+
+## 6. Session 3: the whole recognition ladder, catch trials and yes/no (2026-10-28)
+
+**Protocol.** Same model and protocol as before: four cyclic orders, every option shown as "F. Lastname", and
+the answer read from the first token's log-probabilities. Every level is asked on all 9,108 papers, with both
+controls on the 1,023-paper subset.
+
+**New this session.**
+- **Pairwise AUC per level.** The true list's letter probability, averaged over the four orders, against each
+  wrong list's.
+- **Author data from the Semantic Scholar API.** The sample's paper ids are Semantic Scholar ids, so authors
+  resolve exactly (tools/fetch_s2.py). Two things were fetched:
+  - each author's h-index, used for team prominence;
+  - the co-authors of each first author on up to 20 of their other papers, closest in year.
+
+**The ladder.** Each cell gives the share of papers right in >= 3 of 4 orders, then the AUC. Guessing gives
+0.05 and 0.5.
+
+| level | wrong options | standard | title hidden | title swapped |
+|---|---|---|---|---|
+| L0 | random names from the paper's field (the first test's design) | 0.737 / 0.911 | 0.373 / 0.702 | 0.175 / 0.516 |
+| L1 | real teams of the field, same size (the team test) | 0.703 / 0.896 | 0.238 / 0.605 | 0.157 / 0.507 |
+| L2 | L1, published within +-2 years | 0.668 / 0.877 | 0.176 / 0.537 | 0.158 / 0.525 |
+| L3 | L2, teams of matched prominence (best-known member's h-index) | 0.649 / 0.864 | 0.179 / 0.538 | 0.164 / 0.504 |
+| L3t | real teams of the 3 most similar titles, any year | 0.652 / 0.876 | 0.242 / 0.617 | 0.160 / 0.537 |
+| L4 | the true list with one co-author replaced by a real collaborator of the first author, the same slot in all three | 0.358 / 0.714 | 0.167 / 0.633 | 0.147 / 0.563 |
+| L4r | the same, with a slot drawn per option (the release's design) | 0.646 / 0.875 | 0.510 / 0.843 | 0.406 / 0.765 |
+| L5 | the model's own most frequent wrong lists | 0.412 / 0.709 | 0.252 / 0.610 | 0.155 / 0.503 |
+
+- **AUC has no 16% floor.**
+  - With another paper's title, AUC is 0.50-0.54 at every level except L4 and L4r.
+  - Under the same control, >= 3 of 4 stays at 0.15-0.18.
+  - The model prefers some options in every order. That preference inflates the count rule; averaging over the
+    four orders cancels it.
+- **Each surface cue costs little.** These are the drops in >= 3 of 4:
+
+  | cue | levels compared | points |
+  |---|---|---|
+  | topic | L1 to L3t | 5.1 |
+  | year | L1 to L2 | 3.5 |
+  | prominence, on top of the year | L2 to L3 | 1.9 |
+
+  Random names leak the most: with the title hidden, 0.373 of papers still pass (AUC 0.70).
+- **The team itself is what is hard.**
+  - Swapping one co-author for a real collaborator (L4) cuts "known" to 36%.
+  - The model's own wrong lists (L5) cut it to 41%.
+  - Even at 4097+ citations, L4 is only 0.72.
+- **The release's collaborator swap leaks.**
+  - With a slot drawn per option (L4r), the true list is the one whose every name recurs in other options. The
+    model can find it without knowing the paper.
+  - So the title-swapped control reaches 0.406 (AUC 0.765).
+  - Putting all three swaps in one slot (L4) removes this: 0.147.
+- **L3 matched prominence but not topic.**
+  - Prominence matched well: the gap between the true team's and the donor team's best-known member, in
+    log(1 + h-index), has a median of 0.16 for L3 donors and 0.72 for L1 donors.
+  - Topic barely matched: donor title similarity (TF-IDF) averages 0.016 against 0.006 for L1.
+  - Within the sample, the year and team-size constraints leave few topical neighbours. L3t drops those
+    constraints and reaches a similarity of 0.164.
+- **Where L4's names come from.** 77.6% of the swapped-in names are real collaborators, and 75.6% of papers have
+  all three. The rest are random field names, which may explain L4's slightly raised controls.
+- Details are in data/outputs/g4_bf16/analysis/session3_summary.md and session3_items.md.
+
+**Hard-known.** These are papers known at every level: L1, L2, L3, L3t, L4 and L5.
+- They number 1,568 (17.2%), a quarter of the 6,179 papers known at L1.
+- By citation bin, the share is:
+
+  | citations | 0-2 | 65-128 | 513-1024 | 1025 and up |
+  |---|---|---|---|---|
+  | hard-known | 0.067 | 0.151 | 0.330 | about 0.41 |
+
+  L4 caps it at the top.
+
+**Reliability check.** Recalled papers (HR2 <= 0.5) should almost all be recognised. Of the 222, the number not
+recognised is 1 at L1, 21 at L5 and 33 at L4.
+
+**Catch trials.** These use the L1 distractors, with "None of the above" as one of the four options, asked in
+all four orders.
+
+| | true list chosen | None chosen | a wrong list chosen |
+|---|---|---|---|
+| true list present | 0.581 | 0.367 | 0.051 |
+| true list removed | | 0.721 | 0.279 |
+
+- **Offering "None" lowers hits** from 0.756 to 0.581 per question. When the true list is present, the model
+  rejects it 37% of the time.
+- **Per paper (>= 3 of 4 orders), most known papers fail one of the two tests.** Of the 6,179 papers known at L1:
+  - 65.4% pick the true list when it is present;
+  - 78.9% pick None when it is removed;
+  - 48.9% do both.
+
+  For comparison, 78.4% of recalled papers do both, and 0.2% of unknown ones.
+- **Doing both rises with citations,** from 0.13 at 0-2 to 0.84 at 4097+.
+
+**Yes/no, one list at a time.** The answer counts as Yes when P(Yes) > P(No).
+
+| lists | hit rate | false-alarm rate | d' | c | AUC |
+|---|---|---|---|---|---|
+| L1 | 0.388 | 0.107 | 0.96 | 0.76 | 0.793 |
+| L4r | 0.388 | 0.303 | 0.23 | 0.40 | 0.632 |
+| L5 | 0.389 | 0.270 | 0.33 | 0.45 | 0.617 |
+
+- **The model is conservative.** It says Yes to only 39% of true lists (c > 0).
+- **Discrimination is weaker than in joint multiple choice on the same lists:**
+
+  | lists | yes/no AUC | joint multiple choice AUC |
+  |---|---|---|
+  | L1 | 0.793 | 0.896 |
+  | L5 | 0.617 | 0.709 |
+
+  Seeing the options side by side helps.
+- **GPT-4o was not replicated.** The proposal's GPT-4o replication of the first test needs an OpenAI API key,
+  which this project does not have.
+
+**Likelihood, the third format.** Each option list is scored as the answer to the open question (teacher-forced
+log P(list | prompt), the same "F. Lastname" lists). Each AUC compares the true list with the three wrong ones
+within a paper. The PMI subtracts the same list's log-probability with the title hidden.
+
+| lists | log P(list \| title) | per token | PMI | joint multiple choice |
+|---|---|---|---|---|
+| L1 | 0.815 | 0.814 | 0.877 | 0.896 |
+| L5 | 0.566 | 0.584 | 0.574 | 0.709 |
+
+- **Against other papers' teams (L1), the PMI nearly matches multiple choice.**
+- **Against the model's own wrong lists (L5), likelihood fails.**
+  - Those lists were sampled from the model, so they are likely by construction.
+  - At 0-2 citations the PMI AUC is 0.41: below chance.
+- **Choosing does better than likelihood here** (0.709 vs 0.574). Recognition carries information that generation
+  probability lacks, which is the premise of generate-then-select.
+
+## 7. Session 3: likelihood scores for selection
+
+**Candidates.** The same top-10 sampled candidates as P(True): 90,745 candidates on 9,108 papers.
+
+**Three new scores, all teacher-forced:**
+- **log P(a | title):** the candidate, in the form the model writes it most often, as the answer to "Name one
+  author of the paper titled ...".
+- **PMI:** the same, minus the answer's log-probability without the title (the name's prior).
+- **Authors to title:** log P(title | a) after a reference-list entry, "Shi, P. et al. (2014).". Subtracting
+  log P(title) after "Anonymous (2014)." is constant within a paper, so it changes no ranking there.
+
+**Results on the test split (6,374 papers).** AUC is pooled within papers. Top-1 is the share of papers with a
+true candidate whose top-scored candidate is true.
+
+| score | AUC | top-1 true |
+|---|---|---|
+| sample count (of 50) | 0.744 | 0.433 |
+| P(True) | 0.603 | 0.304 |
+| log P(a \| title) | 0.690 | 0.382 |
+| log P(a), no title | 0.552 | 0.200 |
+| PMI | 0.598 | 0.221 |
+| authors to title, log P(title \| a) | 0.640 | 0.383 |
+| count + PMI (logistic regression fitted on tune) | 0.749 | 0.434 |
+| count + P(True) | 0.755 | 0.433 |
+| count + authors to title | 0.773 | 0.473 |
+| all four | 0.771 | 0.473 |
+
+**Paired bootstrap over test papers, against the count alone:**
+
+| combination | AUC | top-1 (points) |
+|---|---|---|
+| count + authors to title | +0.028 [+0.022, +0.035] | +4.1 [+2.3, +5.9] |
+| count + P(True) | +0.011 [+0.007, +0.015] | 0.0 [-0.8, +0.8] |
+| count + PMI | +0.005 [+0.001, +0.010] | +0.1 [-1.0, +1.2] |
+
+**At a fixed budget.** Every score keeps the same 7,328 test names that the ">= 7 of 50" rule keeps, ranked across
+all papers' top-10 candidates.
+
+| score | true / 100 papers | false / 100 papers |
+|---|---|---|
+| sample count | 17.0 | 97.9 |
+| count + authors to title | 18.1 | 96.8 |
+| all four | 18.4 | 96.6 |
+| P(True) alone | 7.2 | 107.7 |
+| PMI alone | 6.0 | 109.0 |
+
+- **Frequency is still the best single score.**
+- **The name's prior is signal, not noise.**
+  - Even without the title, real authors are likelier names (AUC 0.552).
+  - So removing the prior (PMI, 0.598) does worse than keeping it (0.690).
+- **The authors-to-title direction is the one score that adds to frequency.**
+  - It adds 2.8 AUC points and 4 points of top-1.
+  - At the same budget it keeps about 1.1 to 1.4 more true names per 100 papers.
+  - This fits the proposal's reversal-curse motivation: a reference list stores "authors (year). title", and the
+    model checks the fact more easily in that direction.

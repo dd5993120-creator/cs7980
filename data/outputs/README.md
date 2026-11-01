@@ -36,6 +36,26 @@ Thinking-mode texts contain the reasoning, then `</think>`, then the answer (`gt
 Items are in `data/mc_items/`; the split is `data/splits/split_v1.csv`; the control subset is
 `gts.mc.control_subset(papers, per_stratum=10)`.
 
+## s3/ (session 3, 2026-10-28)
+
+Same model and machine type, `gpu_memory_utilization` 0.88. Items and records are built by
+`tools/build_session3_items.py` from `data/external/` (Semantic Scholar authors and collaborators,
+`tools/fetch_s2.py`).
+
+| folder | one line per | what |
+|---|---|---|
+| `mc_random_field/` | MC item | L0: random names from the paper's field |
+| `mc_similar_title/` | MC item | L3: real teams within +-2 years, matched prominence, most similar titles |
+| `mc_similar_topic/` | MC item | L3t: real teams of the most similar titles, any year |
+| `mc_collab_slot/` | MC item | L4: one co-author swapped for a real collaborator, one shared slot |
+| `mc_collab_swap/` | MC item | L4r: the same with a slot per option (the release's design; leaks) |
+| `mc_catch/` | MC item | L1 distractors with "None of the above"; `with_true` and `catch` items |
+| `yesno_lists/` | question | `record_id` (`level|paper_id|list`, list 0 = true), `yes_no` {yes, no: log-prob} |
+| `score_lists/` | record | `record_id` (`list|level|condition|paper_id|list`), `logprob`, `n_tokens`, `first_logprob` |
+| `score_cands/` | record | `record_id` (`author|title|...`, `author|none|...`, `title|author|...`, `title|none|...`), same fields |
+
+Scores are teacher-forced log-probabilities of the continuation only (`gts.prompts.score_texts`).
+
 ## fp8_40gb/
 
 An earlier greedy run with the FP8 checkpoint on a 40 GB A100 (that session was lost before sampling).

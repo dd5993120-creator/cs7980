@@ -8,6 +8,9 @@ interrupted session resumes where it stopped.
                     truncation), max 96 new tokens as in the paper's greedy run
     multiple choice one token at T=0 with the top-20 log-probabilities, from
                     which the four letter scores are read
+    yes/no          the same, reading the Yes and No scores
+    scoring         teacher-forced log-probability of a given continuation
+                    (prompt log-probabilities; nothing is generated)
 """
 
 from __future__ import annotations
@@ -92,7 +95,7 @@ def load_llm(spec: dict):
         model=spec["model"], dtype=spec["dtype"], max_model_len=spec.get("max_model_len", 2048),
         gpu_memory_utilization=spec["gpu_memory_utilization"], max_num_seqs=spec["max_num_seqs"],
         max_num_batched_tokens=spec.get("max_num_batched_tokens", 8192),
-        enable_prefix_caching=True, seed=0,
+        enable_prefix_caching=spec.get("enable_prefix_caching", True), seed=0,
     )
 
 
@@ -226,6 +229,75 @@ def run_ptrue(llm, records: list[dict], out_dir: Path, *, chunk_size: int = 1000
                          "yes_no": _yes_no_logprobs(first.logprobs[0]) if first.logprobs else {}})
         _write_chunk(rows, dest)
         log(f"[ptrue] chunk {idx:03d}: {len(chunk)} candidates, {time.time() - t0:.0f}s")
+
+
+def run_yes_no(llm, records: list[dict], out_dir: Path, *, chunk_size: int = 10000, log=print) -> None:
+    """Yes/No log-probabilities of the first token for records that carry their own
+    question ("user_text") and, optionally, a system message ("system")."""
+    from vllm import SamplingParams
+
+    tokenizer = llm.get_tokenizer()
+    params = SamplingParams(n=1, temperature=0.0, max_tokens=1, logprobs=MC_TOP_LOGPROBS)
+    out_dir = Path(out_dir)
+    for idx, chunk in _chunks(records, chunk_size):
+        dest = out_dir / f"chunk_{idx:03d}.jsonl.gz"
+        if dest.exists():
+            continue
+        t0 = time.time()
+        prompts = [chat_prompt(tokenizer, r["user_text"], r.get("system")) for r in chunk]
+        outputs = llm.generate(prompts, params, use_tqdm=False)
+        rows = []
+        for r, out in zip(chunk, outputs):
+            first = out.outputs[0]
+            rows.append({"record_id": r["record_id"], "text": first.text,
+                         "yes_no": _yes_no_logprobs(first.logprobs[0]) if first.logprobs else {}})
+        _write_chunk(rows, dest)
+        log(f"[yes/no] chunk {idx:03d}: {len(chunk)} questions, {time.time() - t0:.0f}s")
+
+
+def score_token_ids(tokenizer, records: list[dict]) -> list[tuple[list[int], int]]:
+    """Token ids of prefix + continuation, and where the continuation starts.
+
+    The two parts are tokenised separately, so the scored span is exactly the
+    continuation's tokens (gts.prompts.score_texts keeps the boundary clean).
+    """
+    from gts.prompts import score_texts
+
+    out = []
+    for rec in records:
+        prefix, continuation = score_texts(rec, tokenizer)
+        pre = tokenizer.encode(prefix, add_special_tokens=False)
+        cont = tokenizer.encode(continuation, add_special_tokens=False)
+        out.append((pre + cont, len(pre)))
+    return out
+
+
+def run_score(llm, records: list[dict], out_dir: Path, *, chunk_size: int = 20000, log=print) -> None:
+    """Teacher-forced log-probability of each record's continuation (see gts.prompts.score_texts).
+
+    One forward pass per record with prompt log-probabilities and a single
+    throwaway generated token; nothing is sampled.
+    """
+    from vllm import SamplingParams
+
+    tokenizer = llm.get_tokenizer()
+    params = SamplingParams(n=1, temperature=0.0, max_tokens=1, prompt_logprobs=1)
+    out_dir = Path(out_dir)
+    for idx, chunk in _chunks(records, chunk_size):
+        dest = out_dir / f"chunk_{idx:03d}.jsonl.gz"
+        if dest.exists():
+            continue
+        t0 = time.time()
+        encoded = score_token_ids(tokenizer, chunk)
+        outputs = llm.generate([{"prompt_token_ids": ids} for ids, _ in encoded], params, use_tqdm=False)
+        rows = []
+        for r, (ids, start), out in zip(chunk, encoded, outputs):
+            lps = [out.prompt_logprobs[i][ids[i]].logprob for i in range(start, len(ids))]
+            rows.append({"record_id": r["record_id"], "logprob": float(sum(lps)), "n_tokens": len(lps),
+                         "first_logprob": float(lps[0]) if lps else None})
+        _write_chunk(rows, dest)
+        n_tok = sum(len(ids) for ids, _ in encoded)
+        log(f"[score] chunk {idx:03d}: {len(chunk)} records, {n_tok:,} prompt tokens, {time.time() - t0:.0f}s")
 
 
 def read_chunks(out_dir: Path) -> list[dict]:

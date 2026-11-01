@@ -1,0 +1,116 @@
+22:39:54 remote_steps loaded
+22:39:56 session3 loaded
+22:39:59 spec {'model': 'Qwen/Qwen3-32B', 'dtype': 'bfloat16', 'max_num_seqs': 1024, 'gpu_memory_utilization': 0.88, 'precision': 'bf16', 'max_model_len': 4096, 'gpu_gib': 95.6, 'free_disk_gib': 87.0}
+22:44:32 model loaded in 273s
+22:44:54 [score] chunk 000: 39 records, 2,913 prompt tokens, 1s
+22:44:55 [yes/no] chunk 000: 8 questions, 0s
+22:46:51 [mc] chunk 000: 5000 items, 98s
+22:48:31 [mc] chunk 001: 5000 items, 100s
+22:50:09 [mc] chunk 002: 5000 items, 98s
+22:51:45 [mc] chunk 003: 5000 items, 97s
+22:53:25 [mc] chunk 004: 5000 items, 100s
+22:55:05 [mc] chunk 005: 5000 items, 99s
+22:56:40 [mc] chunk 006: 5000 items, 95s
+22:58:19 [mc] chunk 007: 5000 items, 100s
+22:59:46 [mc] chunk 008: 4616 items, 87s
+22:59:47 mc random_field done in 874s; per-question accuracy {'standard': 0.784, 'title_hidden': 0.479, 'title_swapped': 0.284}; >=3 of 4 orders {'standard': 0.737, 'title_hidden': 0.373, 'title_swapped': 0.175}; no letter in top-20: 0
+23:01:26 [mc] chunk 000: 5000 items, 99s
+23:03:06 [mc] chunk 001: 5000 items, 100s
+23:04:44 [mc] chunk 002: 5000 items, 98s
+23:06:21 [mc] chunk 003: 5000 items, 97s
+23:08:01 [mc] chunk 004: 5000 items, 99s
+23:09:40 [mc] chunk 005: 5000 items, 99s
+23:11:15 [mc] chunk 006: 5000 items, 95s
+23:12:55 [mc] chunk 007: 5000 items, 99s
+23:14:22 [mc] chunk 008: 4616 items, 87s
+23:14:22 mc similar_title done in 875s; per-question accuracy {'standard': 0.711, 'title_hidden': 0.286, 'title_swapped': 0.27}; >=3 of 4 orders {'standard': 0.649, 'title_hidden': 0.179, 'title_swapped': 0.164}; no letter in top-20: 0
+23:15:56 [mc] chunk 000: 5000 items, 93s
+23:17:30 [mc] chunk 001: 5000 items, 94s
+23:19:02 [mc] chunk 002: 5000 items, 92s
+23:20:33 [mc] chunk 003: 5000 items, 91s
+23:22:07 [mc] chunk 004: 5000 items, 94s
+23:23:40 [mc] chunk 005: 5000 items, 93s
+23:25:09 [mc] chunk 006: 5000 items, 89s
+23:26:42 [mc] chunk 007: 5000 items, 93s
+23:28:04 [mc] chunk 008: 4616 items, 82s
+23:28:04 mc collab_swap done in 822s; per-question accuracy {'standard': 0.685, 'title_hidden': 0.574, 'title_swapped': 0.505}; >=3 of 4 orders {'standard': 0.646, 'title_hidden': 0.51, 'title_swapped': 0.406}; no letter in top-20: 0
+23:28:04 session3_part1 finished
+23:29:23 [mc] chunk 000: 5000 items, 75s
+23:30:40 [mc] chunk 001: 5000 items, 78s
+23:31:57 [mc] chunk 002: 5000 items, 76s
+23:33:12 [mc] chunk 003: 5000 items, 75s
+23:34:27 [mc] chunk 004: 5000 items, 75s
+23:35:41 [mc] chunk 005: 5000 items, 74s
+23:36:56 [mc] chunk 006: 5000 items, 75s
+23:38:12 [mc] chunk 007: 5000 items, 76s
+23:39:28 [mc] chunk 008: 5000 items, 76s
+23:40:45 [mc] chunk 009: 5000 items, 76s
+23:41:59 [mc] chunk 010: 5000 items, 74s
+23:43:14 [mc] chunk 011: 5000 items, 74s
+23:44:29 [mc] chunk 012: 5000 items, 75s
+23:45:43 [mc] chunk 013: 5000 items, 74s
+23:46:24 [mc] chunk 014: 2864 items, 42s
+23:46:25 mc catch done in 1098s; per-question accuracy {'catch': 0.721, 'with_true': 0.581}; >=3 of 4 orders {'catch': 0.728, 'with_true': 0.488}; no letter in top-20: 0
+23:48:25 [yes/no] chunk 000: 10000 questions, 119s
+23:50:23 [yes/no] chunk 001: 10000 questions, 118s
+23:52:22 [yes/no] chunk 002: 10000 questions, 119s
+23:54:19 [yes/no] chunk 003: 10000 questions, 118s
+23:56:17 [yes/no] chunk 004: 10000 questions, 117s
+23:58:15 [yes/no] chunk 005: 10000 questions, 118s
+00:00:12 [yes/no] chunk 006: 10000 questions, 117s
+00:02:13 [yes/no] chunk 007: 10000 questions, 121s
+00:04:15 [yes/no] chunk 008: 10000 questions, 121s
+00:06:17 [yes/no] chunk 009: 10000 questions, 122s
+00:08:09 [yes/no] chunk 010: 9296 questions, 113s
+00:08:09 yesno_lists done in 1304s for 109296 questions
+00:08:10 session3_part2 finished
+00:08:37 session3 loaded
+00:10:18 [mc] chunk 000: 5000 items, 99s
+00:11:58 [mc] chunk 001: 5000 items, 100s
+00:13:36 [mc] chunk 002: 5000 items, 98s
+00:15:13 [mc] chunk 003: 5000 items, 97s
+00:16:52 [mc] chunk 004: 5000 items, 99s
+00:18:32 [mc] chunk 005: 5000 items, 99s
+00:20:06 [mc] chunk 006: 5000 items, 95s
+00:21:45 [mc] chunk 007: 5000 items, 99s
+00:23:12 [mc] chunk 008: 4616 items, 87s
+00:23:13 mc similar_topic done in 874s; per-question accuracy {'standard': 0.714, 'title_hidden': 0.357, 'title_swapped': 0.272}; >=3 of 4 orders {'standard': 0.652, 'title_hidden': 0.242, 'title_swapped': 0.16}; no letter in top-20: 0
+00:24:46 [mc] chunk 000: 5000 items, 93s
+00:26:20 [mc] chunk 001: 5000 items, 94s
+00:27:52 [mc] chunk 002: 5000 items, 92s
+00:29:23 [mc] chunk 003: 5000 items, 91s
+00:30:57 [mc] chunk 004: 5000 items, 94s
+00:32:30 [mc] chunk 005: 5000 items, 93s
+00:34:00 [mc] chunk 006: 5000 items, 89s
+00:35:33 [mc] chunk 007: 5000 items, 93s
+00:36:54 [mc] chunk 008: 4616 items, 82s
+00:36:55 mc collab_slot done in 822s; per-question accuracy {'standard': 0.485, 'title_hidden': 0.355, 'title_swapped': 0.306}; >=3 of 4 orders {'standard': 0.358, 'title_hidden': 0.167, 'title_swapped': 0.147}; no letter in top-20: 0
+00:36:55 session3_part3a finished
+00:43:45 [score] chunk 000: 20000 records, 2,254,032 prompt tokens, 407s
+00:50:33 [score] chunk 001: 20000 records, 2,241,420 prompt tokens, 408s
+00:57:21 [score] chunk 002: 20000 records, 2,247,340 prompt tokens, 408s
+01:04:06 [score] chunk 003: 20000 records, 2,236,882 prompt tokens, 405s
+01:10:52 [score] chunk 004: 20000 records, 2,237,274 prompt tokens, 406s
+01:17:38 [score] chunk 005: 20000 records, 2,240,570 prompt tokens, 406s
+01:24:24 [score] chunk 006: 20000 records, 2,236,430 prompt tokens, 406s
+01:26:19 [score] chunk 007: 5728 records, 633,312 prompt tokens, 115s
+01:26:19 score_lists done in 2962s for 145728 records
+01:26:19 session3_part3b finished
+01:26:21 part3c deferred to a fresh client
+01:30:37 [score] chunk 000: 20000 records, 1,341,470 prompt tokens, 243s
+01:34:40 [score] chunk 001: 20000 records, 1,340,360 prompt tokens, 243s
+01:38:43 [score] chunk 002: 20000 records, 1,336,941 prompt tokens, 243s
+01:42:46 [score] chunk 003: 20000 records, 1,332,517 prompt tokens, 243s
+01:46:47 [score] chunk 004: 20000 records, 1,328,453 prompt tokens, 241s
+01:50:50 [score] chunk 005: 20000 records, 1,332,443 prompt tokens, 243s
+01:54:53 [score] chunk 006: 20000 records, 1,336,055 prompt tokens, 243s
+01:58:55 [score] chunk 007: 20000 records, 1,334,597 prompt tokens, 242s
+02:02:59 [score] chunk 008: 20000 records, 1,336,105 prompt tokens, 244s
+02:07:01 [score] chunk 009: 20000 records, 1,335,391 prompt tokens, 243s
+02:11:05 [score] chunk 010: 20000 records, 1,340,817 prompt tokens, 244s
+02:15:08 [score] chunk 011: 20000 records, 1,339,149 prompt tokens, 243s
+02:19:10 [score] chunk 012: 20000 records, 1,329,479 prompt tokens, 241s
+02:23:13 [score] chunk 013: 20000 records, 1,332,677 prompt tokens, 243s
+02:23:29 [score] chunk 014: 1343 records, 89,574 prompt tokens, 17s
+02:23:29 score_cands done in 3416s for 281343 records
+02:23:29 meta {'model': 'Qwen/Qwen3-32B', 'precision': 'bf16', 'gpu_gib': 95.6, 'gpu_name': 'NVIDIA RTX PRO 6000 Blackwell Server Edition', 'vllm': '0.32.0', 'torch': '2.13.0+cu130', 'max_new_tokens': 96, 'greedy': {'n': 1, 'temperature': 0.0}, 'samples': {'n': 50, 'temperature': 1.0, 'top_p': 1.0, 'top_k': 'off', 'seed': 'per paper'}, 'mc': {'temperature': 0.0, 'max_tokens': 1, 'top_logprobs': 20}, 'written_utc': '2026-10-29T02:23:29Z', 'session': 3, 'scoring': 'teacher-forced prompt log-probabilities (vLLM prompt_logprobs)', 'gpu_memory_utilization': 0.88}

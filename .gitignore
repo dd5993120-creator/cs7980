@@ -17,3 +17,7 @@ data/outputs/g4_bf16/analysis/pools.pkl
 data/outputs/**/*.tar.gz
 # Built by tools/make_colab_bundle.py
 colab/gts_bundle.zip
+# Raw Semantic Scholar responses, cached by tools/fetch_s2.py
+data/external/s2_cache/
+# Local log of tools/mirror_remote.sh runs
+data/outputs/*_mirror.log

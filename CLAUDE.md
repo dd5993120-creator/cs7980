@@ -42,6 +42,12 @@ The claude.ai history behind this project is in docs/chat/ (part 1 verbatim, par
 - data/outputs/: results downloaded from Colab (greedy/, samples/, mc_real_team/, run_meta.json).
 - docs/: chat history, paper drafts, plans, slides from the claude.ai phase.
 - tools/slides/build_update2.js: Minyan's Update 2 slides and talk script (docs/slides/Generate_then_Select_Update2.*).
+- Session 3 (2026-10-28):
+  - tools/fetch_s2.py: Semantic Scholar authors, h-indexes and collaborators, written to data/external/.
+  - tools/build_session3_items.py: the session's items.
+  - tools/describe_session3_items.py: how the distractors came out.
+  - tools/analyze_session3.py: the session's tables.
+  - colab/session3.py: the steps run on Colab.
 
 ## Slides
 - Font: Arial, the user's choice (as in their 2026-10-05 Generate_then_Select_Slides.pptx). The team's Google Slides
@@ -69,6 +75,14 @@ The claude.ai history behind this project is in docs/chat/ (part 1 verbatim, par
   colab/gts_bundle.zip to /content, `colab exec -f colab/remote_steps.py`, then load(), greedy_step(),
   samples_then_real_team(); build own_sample and ptrue items locally from the downloaded samples, upload them, then
   second_half(); download /content/outputs.tar.gz; always `colab stop -s gts` at the end.
+- Lessons from session 3:
+  - A background Bash command is capped at 2 hours. Chain steps so that no single launch runs longer.
+  - To end a running chain early, overwrite its next step file with a no-op, then relaunch the rest with a fresh
+    budget. Restart tools/mirror_remote.sh the same way.
+  - `colab upload` works while the kernel is busy. So a keep-alive exec can wait for a marker file while items
+    are still being built locally, and the VM is not dropped.
+  - Prompt log-probabilities (run_score) go at about 5,500 prompt tokens/s on G4; prefix caching does not apply
+    to them.
 - data/outputs/fp8_40gb/ holds an earlier greedy run (FP8 on a 40 GB A100): aggregate scores match the paper's bf16 run
   (1,224 vs 1,202 true authors named; 220 vs 222 recalled), but only 24% of answers are identical (52% for bf16 on G4).
 
@@ -97,9 +111,25 @@ root is the consolidated write-up. Compute units left: 60.50.
   [+1.9, +4.4]) with fewer false names. At about 3,200 tokens, CoT x5 self-consistency has the best HR2.
 - Coverage is not saturated at 50 samples (0.241 at 50, 0.299 at 100, 0.358 at 200 on the subset).
 
+Session 3 is complete (2026-10-28; data/outputs/s3/; RESULTS.md sections 6-7). Cost 33.9 compute units; 26.59 left.
+- The ladder (L0-L5, plus L3t and L4r) and its controls are in RESULTS.md section 6.
+  - With another paper's title, AUC is about 0.5 at every level except L4r.
+  - Known is 0.703 at L1, 0.358 at L4 (one co-author swapped for a real collaborator, shared slot) and 0.412 at
+    L5.
+  - The release's collaborator swap (L4r, a slot per option) leaks: title-swapped control 0.406.
+  - Hard-known (known at every level): 1,568 papers. Labels: g4_bf16/analysis/session3_labels.csv.
+- Catch trials (L1 + "None of the above"): 48.9% of L1-known papers pass both the hit and the rejection.
+- Yes/no is conservative (39% Yes to true lists) and weaker than joint choice (AUC 0.793 vs 0.896 at L1).
+- Likelihood:
+  - The PMI of each list nearly matches joint choice against L1 (0.877).
+  - It fails against the model's own wrong lists, L5 (0.574, against 0.709 for choice).
+- Selection: authors-to-title scoring adds to frequency (AUC +0.028 [+0.022, +0.035], top-1 +4.1 points).
+  Forward PMI and P(True) do not help it.
+- Not done: the GPT-4o replication (no OpenAI API key).
+
 ## Next
 1. Generation strategies that raise coverage per token: exclusion prompting (ask for authors not yet named),
    decomposed generation (first author alone), enumerated first-letter cues.
-2. Better selectors: joint MC with the samples in context, combining frequency with the candidate MC choice.
+2. Better selectors: count + authors-to-title as the default; joint MC with the samples in context.
 3. Failure split as a function of k (reachable at 10 / 50 / 200 samples) by label and citation bin.
 4. If Hana's labels and split become available, report in the team's unit on her 566 known tune papers.
